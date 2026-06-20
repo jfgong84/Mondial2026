@@ -298,7 +298,7 @@ input[type=number].auto-filled:focus{border-color:var(--green);}
       <div class="chips" id="participants-list"></div>
     </div>
       <div style="font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:12px;">
-        Les résultats officiels sont récupérés depuis <strong style="color:var(--text);">openfootball.github.io</strong>, une base de données open source mise à jour après chaque match. La synchronisation se déclenche automatiquement toutes les <strong style="color:var(--text);">5 minutes</strong> pendant le tournoi.<br><br>
+        Les résultats officiels sont récupérés depuis <strong style="color:var(--text);">openfootball.github.io</strong>, une base de données open source mise à jour après chaque match. La synchronisation se déclenche automatiquement toutes les <strong style="color:var(--text);">15 minutes</strong> pendant le tournoi.<br><br>
         Les scores importés apparaissent en <span style="color:var(--green);">vert</span> dans les onglets Pronostics et Résultats. Vous pouvez toujours corriger manuellement un score si nécessaire.
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -364,87 +364,87 @@ const GROUP_MATCHES = [
   // GROUPE A
   {id:'A1',g:'Groupe A',a:'Mexique',b:'Afrique du Sud',d:'11 juin',oa:'Mexico',ob:'South Africa',ko:new Date('2026-06-11T19:00:00Z').getTime()},
   {id:'A2',g:'Groupe A',a:'Corée du Sud',b:'Tchéquie',d:'12 juin',oa:'South Korea',ob:'Czech Republic',ko:new Date('2026-06-12T02:00:00Z').getTime()},
-  {id:'A3',g:'Groupe A',a:'Mexique',b:'Corée du Sud',d:'15 juin',oa:'Mexico',ob:'South Korea',ko:new Date('2026-06-15T22:00:00Z').getTime()},
+  {id:'A3',g:'Groupe A',a:'Mexique',b:'Corée du Sud',d:'18 juin',oa:'Mexico',ob:'South Korea',ko:new Date('2026-06-19T01:00:00Z').getTime()},
   {id:'A4',g:'Groupe A',a:'Afrique du Sud',b:'Tchéquie',d:'18 juin',oa:'South Africa',ob:'Czech Republic',ko:new Date('2026-06-18T16:00:00Z').getTime()},
-  {id:'A5',g:'Groupe A',a:'Mexique',b:'Tchéquie',d:'19 juin',oa:'Mexico',ob:'Czech Republic',ko:new Date('2026-06-19T22:00:00Z').getTime()},
-  {id:'A6',g:'Groupe A',a:'Corée du Sud',b:'Afrique du Sud',d:'19 juin',oa:'South Korea',ob:'South Africa',ko:new Date('2026-06-19T22:00:00Z').getTime()},
+  {id:'A5',g:'Groupe A',a:'Mexique',b:'Tchéquie',d:'19 juin',oa:'Mexico',ob:'Czech Republic',ko:new Date('2026-06-25T01:00:00Z').getTime()},
+  {id:'A6',g:'Groupe A',a:'Corée du Sud',b:'Afrique du Sud',d:'19 juin',oa:'South Korea',ob:'South Africa',ko:new Date('2026-06-25T01:00:00Z').getTime()},
   // GROUPE B
   {id:'B1',g:'Groupe B',a:'Canada',b:'Bosnie-Herzégovine',d:'12 juin',oa:'Canada',ob:'Bosnia-Herzegovina',ko:new Date('2026-06-12T19:00:00Z').getTime()},
   {id:'B2',g:'Groupe B',a:'Qatar',b:'Suisse',d:'13 juin',oa:'Qatar',ob:'Switzerland',ko:new Date('2026-06-13T19:00:00Z').getTime()},
-  {id:'B3',g:'Groupe B',a:'Canada',b:'Qatar',d:'16 juin',oa:'Canada',ob:'Qatar',ko:new Date('2026-06-16T19:00:00Z').getTime()},
-  {id:'B4',g:'Groupe B',a:'Bosnie-Herzégovine',b:'Suisse',d:'17 juin',oa:'Bosnia-Herzegovina',ob:'Switzerland',ko:new Date('2026-06-17T00:00:00Z').getTime()},
-  {id:'B5',g:'Groupe B',a:'Canada',b:'Suisse',d:'20 juin',oa:'Canada',ob:'Switzerland',ko:new Date('2026-06-20T22:00:00Z').getTime()},
-  {id:'B6',g:'Groupe B',a:'Qatar',b:'Bosnie-Herzégovine',d:'20 juin',oa:'Qatar',ob:'Bosnia-Herzegovina',ko:new Date('2026-06-20T22:00:00Z').getTime()},
+  {id:'B3',g:'Groupe B',a:'Canada',b:'Qatar',d:'16 juin',oa:'Canada',ob:'Qatar',ko:new Date('2026-06-18T22:00:00Z').getTime()},
+  {id:'B4',g:'Groupe B',a:'Bosnie-Herzégovine',b:'Suisse',d:'17 juin',oa:'Bosnia-Herzegovina',ob:'Switzerland',ko:new Date('2026-06-18T19:00:00Z').getTime()},
+  {id:'B5',g:'Groupe B',a:'Canada',b:'Suisse',d:'20 juin',oa:'Canada',ob:'Switzerland',ko:new Date('2026-06-24T19:00:00Z').getTime()},
+  {id:'B6',g:'Groupe B',a:'Qatar',b:'Bosnie-Herzégovine',d:'20 juin',oa:'Qatar',ob:'Bosnia-Herzegovina',ko:new Date('2026-06-24T19:00:00Z').getTime()},
   // GROUPE C
-  {id:'C1',g:'Groupe C',a:'Brésil',b:'Maroc',d:'13 juin',oa:'Brazil',ob:'Morocco',ko:new Date('2026-06-13T22:00:00Z').getTime()},
+  {id:'C1',g:'Groupe C',a:'Brésil',b:'Maroc',d:'13 juin',oa:'Brazil',ob:'Morocco',ko:new Date('2026-06-13T20:00:00Z').getTime()},
   {id:'C2',g:'Groupe C',a:'Haïti',b:'Écosse',d:'14 juin',oa:'Haiti',ob:'Scotland',ko:new Date('2026-06-14T01:00:00Z').getTime()},
-  {id:'C3',g:'Groupe C',a:'Brésil',b:'Haïti',d:'17 juin',oa:'Brazil',ob:'Haiti',ko:new Date('2026-06-17T22:00:00Z').getTime()},
-  {id:'C4',g:'Groupe C',a:'Maroc',b:'Écosse',d:'18 juin',oa:'Morocco',ob:'Scotland',ko:new Date('2026-06-18T01:00:00Z').getTime()},
-  {id:'C5',g:'Groupe C',a:'Brésil',b:'Écosse',d:'21 juin',oa:'Brazil',ob:'Scotland',ko:new Date('2026-06-21T22:00:00Z').getTime()},
-  {id:'C6',g:'Groupe C',a:'Maroc',b:'Haïti',d:'21 juin',oa:'Morocco',ob:'Haiti',ko:new Date('2026-06-21T22:00:00Z').getTime()},
+  {id:'C3',g:'Groupe C',a:'Brésil',b:'Haïti',d:'17 juin',oa:'Brazil',ob:'Haiti',ko:new Date('2026-06-20T01:00:00Z').getTime()},
+  {id:'C4',g:'Groupe C',a:'Maroc',b:'Écosse',d:'18 juin',oa:'Morocco',ob:'Scotland',ko:new Date('2026-06-19T22:00:00Z').getTime()},
+  {id:'C5',g:'Groupe C',a:'Brésil',b:'Écosse',d:'21 juin',oa:'Brazil',ob:'Scotland',ko:new Date('2026-06-24T22:00:00Z').getTime()},
+  {id:'C6',g:'Groupe C',a:'Maroc',b:'Haïti',d:'21 juin',oa:'Morocco',ob:'Haiti',ko:new Date('2026-06-24T22:00:00Z').getTime()},
   // GROUPE D
-  {id:'D1',g:'Groupe D',a:'États-Unis',b:'Paraguay',d:'13 juin',oa:'USA',ob:'Paraguay',ko:new Date('2026-06-13T01:00:00Z').getTime()},
-  {id:'D2',g:'Groupe D',a:'Australie',b:'Turquie',d:'14 juin',oa:'Australia',ob:'Turkey',ko:new Date('2026-06-14T16:00:00Z').getTime()},
-  {id:'D3',g:'Groupe D',a:'États-Unis',b:'Australie',d:'17 juin',oa:'USA',ob:'Australia',ko:new Date('2026-06-17T19:00:00Z').getTime()},
-  {id:'D4',g:'Groupe D',a:'Paraguay',b:'Turquie',d:'18 juin',oa:'Paraguay',ob:'Turkey',ko:new Date('2026-06-18T00:00:00Z').getTime()},
-  {id:'D5',g:'Groupe D',a:'États-Unis',b:'Turquie',d:'21 juin',oa:'USA',ob:'Turkey',ko:new Date('2026-06-21T22:00:00Z').getTime()},
-  {id:'D6',g:'Groupe D',a:'Paraguay',b:'Australie',d:'21 juin',oa:'Paraguay',ob:'Australia',ko:new Date('2026-06-21T22:00:00Z').getTime()},
+  {id:'D1',g:'Groupe D',a:'États-Unis',b:'Paraguay',d:'13 juin',oa:'USA',ob:'Paraguay',ko:new Date('2026-06-12T23:00:00Z').getTime()},
+  {id:'D2',g:'Groupe D',a:'Australie',b:'Turquie',d:'14 juin',oa:'Australia',ob:'Turkey',ko:new Date('2026-06-13T04:00:00Z').getTime()},
+  {id:'D3',g:'Groupe D',a:'États-Unis',b:'Australie',d:'17 juin',oa:'USA',ob:'Australia',ko:new Date('2026-06-19T19:00:00Z').getTime()},
+  {id:'D4',g:'Groupe D',a:'Paraguay',b:'Turquie',d:'18 juin',oa:'Paraguay',ob:'Turkey',ko:new Date('2026-06-19T04:00:00Z').getTime()},
+  {id:'D5',g:'Groupe D',a:'États-Unis',b:'Turquie',d:'21 juin',oa:'USA',ob:'Turkey',ko:new Date('2026-06-26T02:00:00Z').getTime()},
+  {id:'D6',g:'Groupe D',a:'Paraguay',b:'Australie',d:'21 juin',oa:'Paraguay',ob:'Australia',ko:new Date('2026-06-26T02:00:00Z').getTime()},
   // GROUPE E
   {id:'E1',g:'Groupe E',a:'Allemagne',b:'Curaçao',d:'14 juin',oa:'Germany',ob:'Curacao',ko:new Date('2026-06-14T17:00:00Z').getTime()},
-  {id:'E2',g:'Groupe E',a:"Côte d'Ivoire",b:'Équateur',d:'15 juin',oa:"Ivory Coast",ob:'Ecuador',ko:new Date('2026-06-15T00:00:00Z').getTime()},
-  {id:'E3',g:'Groupe E',a:'Allemagne',b:"Côte d'Ivoire",d:'18 juin',oa:'Germany',ob:"Ivory Coast",ko:new Date('2026-06-18T19:00:00Z').getTime()},
-  {id:'E4',g:'Groupe E',a:'Curaçao',b:'Équateur',d:'19 juin',oa:'Curacao',ob:'Ecuador',ko:new Date('2026-06-19T00:00:00Z').getTime()},
-  {id:'E5',g:'Groupe E',a:'Allemagne',b:'Équateur',d:'22 juin',oa:'Germany',ob:'Ecuador',ko:new Date('2026-06-22T22:00:00Z').getTime()},
-  {id:'E6',g:'Groupe E',a:"Côte d'Ivoire",b:'Curaçao',d:'22 juin',oa:"Ivory Coast",ob:'Curacao',ko:new Date('2026-06-22T22:00:00Z').getTime()},
+  {id:'E2',g:'Groupe E',a:"Côte d'Ivoire",b:'Équateur',d:'15 juin',oa:"Ivory Coast",ob:'Ecuador',ko:new Date('2026-06-14T23:00:00Z').getTime()},
+  {id:'E3',g:'Groupe E',a:'Allemagne',b:"Côte d'Ivoire",d:'18 juin',oa:'Germany',ob:"Ivory Coast",ko:new Date('2026-06-20T20:00:00Z').getTime()},
+  {id:'E4',g:'Groupe E',a:'Curaçao',b:'Équateur',d:'19 juin',oa:'Curacao',ob:'Ecuador',ko:new Date('2026-06-21T00:00:00Z').getTime()},
+  {id:'E5',g:'Groupe E',a:'Allemagne',b:'Équateur',d:'22 juin',oa:'Germany',ob:'Ecuador',ko:new Date('2026-06-25T20:00:00Z').getTime()},
+  {id:'E6',g:'Groupe E',a:"Côte d'Ivoire",b:'Curaçao',d:'22 juin',oa:"Ivory Coast",ob:'Curacao',ko:new Date('2026-06-25T20:00:00Z').getTime()},
   // GROUPE F
   {id:'F1',g:'Groupe F',a:'Pays-Bas',b:'Japon',d:'14 juin',oa:'Netherlands',ob:'Japan',ko:new Date('2026-06-14T20:00:00Z').getTime()},
   {id:'F2',g:'Groupe F',a:'Tunisie',b:'Suède',d:'15 juin',oa:'Tunisia',ob:'Sweden',ko:new Date('2026-06-15T02:00:00Z').getTime()},
-  {id:'F3',g:'Groupe F',a:'Pays-Bas',b:'Tunisie',d:'19 juin',oa:'Netherlands',ob:'Tunisia',ko:new Date('2026-06-19T01:00:00Z').getTime()},
-  {id:'F4',g:'Groupe F',a:'Japon',b:'Suède',d:'19 juin',oa:'Japan',ob:'Sweden',ko:new Date('2026-06-19T01:00:00Z').getTime()},
-  {id:'F5',g:'Groupe F',a:'Pays-Bas',b:'Suède',d:'23 juin',oa:'Netherlands',ob:'Sweden',ko:new Date('2026-06-23T01:00:00Z').getTime()},
-  {id:'F6',g:'Groupe F',a:'Tunisie',b:'Japon',d:'23 juin',oa:'Tunisia',ob:'Japan',ko:new Date('2026-06-23T01:00:00Z').getTime()},
+  {id:'F3',g:'Groupe F',a:'Pays-Bas',b:'Tunisie',d:'19 juin',oa:'Netherlands',ob:'Tunisia',ko:new Date('2026-06-25T23:00:00Z').getTime()},
+  {id:'F4',g:'Groupe F',a:'Japon',b:'Suède',d:'19 juin',oa:'Japan',ob:'Sweden',ko:new Date('2026-06-25T23:00:00Z').getTime()},
+  {id:'F5',g:'Groupe F',a:'Pays-Bas',b:'Suède',d:'23 juin',oa:'Netherlands',ob:'Sweden',ko:new Date('2026-06-20T17:00:00Z').getTime()},
+  {id:'F6',g:'Groupe F',a:'Tunisie',b:'Japon',d:'23 juin',oa:'Tunisia',ob:'Japan',ko:new Date('2026-06-21T04:00:00Z').getTime()},
   // GROUPE G
-  {id:'G1',g:'Groupe G',a:'Belgique',b:'Égypte',d:'15 juin',oa:'Belgium',ob:'Egypt',ko:new Date('2026-06-15T16:00:00Z').getTime()},
-  {id:'G2',g:'Groupe G',a:'Iran',b:'Nouvelle-Zélande',d:'15 juin',oa:'Iran',ob:'New Zealand',ko:new Date('2026-06-15T22:00:00Z').getTime()},
-  {id:'G3',g:'Groupe G',a:'Belgique',b:'Iran',d:'19 juin',oa:'Belgium',ob:'Iran',ko:new Date('2026-06-19T19:00:00Z').getTime()},
-  {id:'G4',g:'Groupe G',a:'Égypte',b:'Nouvelle-Zélande',d:'20 juin',oa:'Egypt',ob:'New Zealand',ko:new Date('2026-06-20T01:00:00Z').getTime()},
-  {id:'G5',g:'Groupe G',a:'Belgique',b:'Nouvelle-Zélande',d:'23 juin',oa:'Belgium',ob:'New Zealand',ko:new Date('2026-06-23T22:00:00Z').getTime()},
-  {id:'G6',g:'Groupe G',a:'Égypte',b:'Iran',d:'23 juin',oa:'Egypt',ob:'Iran',ko:new Date('2026-06-23T22:00:00Z').getTime()},
+  {id:'G1',g:'Groupe G',a:'Belgique',b:'Égypte',d:'15 juin',oa:'Belgium',ob:'Egypt',ko:new Date('2026-06-15T19:00:00Z').getTime()},
+  {id:'G2',g:'Groupe G',a:'Iran',b:'Nouvelle-Zélande',d:'15 juin',oa:'Iran',ob:'New Zealand',ko:new Date('2026-06-16T01:00:00Z').getTime()},
+  {id:'G3',g:'Groupe G',a:'Belgique',b:'Iran',d:'19 juin',oa:'Belgium',ob:'Iran',ko:new Date('2026-06-21T19:00:00Z').getTime()},
+  {id:'G4',g:'Groupe G',a:'Égypte',b:'Nouvelle-Zélande',d:'20 juin',oa:'Egypt',ob:'New Zealand',ko:new Date('2026-06-22T01:00:00Z').getTime()},
+  {id:'G5',g:'Groupe G',a:'Belgique',b:'Nouvelle-Zélande',d:'23 juin',oa:'Belgium',ob:'New Zealand',ko:new Date('2026-06-27T03:00:00Z').getTime()},
+  {id:'G6',g:'Groupe G',a:'Égypte',b:'Iran',d:'23 juin',oa:'Egypt',ob:'Iran',ko:new Date('2026-06-27T03:00:00Z').getTime()},
   // GROUPE H
-  {id:'H1',g:'Groupe H',a:'Espagne',b:'Cap-Vert',d:'15 juin',oa:'Spain',ob:'Cape Verde',ko:new Date('2026-06-15T18:00:00Z').getTime()},
-  {id:'H2',g:'Groupe H',a:'Arabie Saoudite',b:'Uruguay',d:'16 juin',oa:'Saudi Arabia',ob:'Uruguay',ko:new Date('2026-06-16T01:00:00Z').getTime()},
-  {id:'H3',g:'Groupe H',a:'Espagne',b:'Arabie Saoudite',d:'19 juin',oa:'Spain',ob:'Saudi Arabia',ko:new Date('2026-06-19T18:00:00Z').getTime()},
-  {id:'H4',g:'Groupe H',a:'Cap-Vert',b:'Uruguay',d:'20 juin',oa:'Cape Verde',ob:'Uruguay',ko:new Date('2026-06-20T01:00:00Z').getTime()},
-  {id:'H5',g:'Groupe H',a:'Espagne',b:'Uruguay',d:'24 juin',oa:'Spain',ob:'Uruguay',ko:new Date('2026-06-24T02:00:00Z').getTime()},
-  {id:'H6',g:'Groupe H',a:'Cap-Vert',b:'Arabie Saoudite',d:'23 juin',oa:'Cape Verde',ob:'Saudi Arabia',ko:new Date('2026-06-23T22:00:00Z').getTime()},
+  {id:'H1',g:'Groupe H',a:'Espagne',b:'Cap-Vert',d:'15 juin',oa:'Spain',ob:'Cape Verde',ko:new Date('2026-06-15T16:00:00Z').getTime()},
+  {id:'H2',g:'Groupe H',a:'Arabie Saoudite',b:'Uruguay',d:'16 juin',oa:'Saudi Arabia',ob:'Uruguay',ko:new Date('2026-06-15T22:00:00Z').getTime()},
+  {id:'H3',g:'Groupe H',a:'Espagne',b:'Arabie Saoudite',d:'19 juin',oa:'Spain',ob:'Saudi Arabia',ko:new Date('2026-06-21T16:00:00Z').getTime()},
+  {id:'H4',g:'Groupe H',a:'Cap-Vert',b:'Uruguay',d:'20 juin',oa:'Cape Verde',ob:'Uruguay',ko:new Date('2026-06-21T22:00:00Z').getTime()},
+  {id:'H5',g:'Groupe H',a:'Espagne',b:'Uruguay',d:'24 juin',oa:'Spain',ob:'Uruguay',ko:new Date('2026-06-27T00:00:00Z').getTime()},
+  {id:'H6',g:'Groupe H',a:'Cap-Vert',b:'Arabie Saoudite',d:'23 juin',oa:'Cape Verde',ob:'Saudi Arabia',ko:new Date('2026-06-27T00:00:00Z').getTime()},
   // GROUPE I
-  {id:'I1',g:'Groupe I',a:'France',b:'Sénégal',d:'16 juin',oa:'France',ob:'Senegal',ko:new Date('2026-06-16T21:00:00Z').getTime()},
-  {id:'I2',g:'Groupe I',a:'Irak',b:'Norvège',d:'17 juin',oa:'Iraq',ob:'Norway',ko:new Date('2026-06-17T01:00:00Z').getTime()},
-  {id:'I3',g:'Groupe I',a:'France',b:'Irak',d:'22 juin',oa:'France',ob:'Iraq',ko:new Date('2026-06-22T23:00:00Z').getTime()},
-  {id:'I4',g:'Groupe I',a:'Sénégal',b:'Norvège',d:'23 juin',oa:'Senegal',ob:'Norway',ko:new Date('2026-06-23T02:00:00Z').getTime()},
-  {id:'I5',g:'Groupe I',a:'France',b:'Norvège',d:'26 juin',oa:'France',ob:'Norway',ko:new Date('2026-06-26T21:00:00Z').getTime()},
-  {id:'I6',g:'Groupe I',a:'Sénégal',b:'Irak',d:'27 juin',oa:'Senegal',ob:'Iraq',ko:new Date('2026-06-27T01:00:00Z').getTime()},
+  {id:'I1',g:'Groupe I',a:'France',b:'Sénégal',d:'16 juin',oa:'France',ob:'Senegal',ko:new Date('2026-06-16T19:00:00Z').getTime()},
+  {id:'I2',g:'Groupe I',a:'Irak',b:'Norvège',d:'17 juin',oa:'Iraq',ob:'Norway',ko:new Date('2026-06-16T22:00:00Z').getTime()},
+  {id:'I3',g:'Groupe I',a:'France',b:'Irak',d:'22 juin',oa:'France',ob:'Iraq',ko:new Date('2026-06-22T21:00:00Z').getTime()},
+  {id:'I4',g:'Groupe I',a:'Sénégal',b:'Norvège',d:'23 juin',oa:'Senegal',ob:'Norway',ko:new Date('2026-06-23T00:00:00Z').getTime()},
+  {id:'I5',g:'Groupe I',a:'France',b:'Norvège',d:'26 juin',oa:'France',ob:'Norway',ko:new Date('2026-06-26T19:00:00Z').getTime()},
+  {id:'I6',g:'Groupe I',a:'Sénégal',b:'Irak',d:'27 juin',oa:'Senegal',ob:'Iraq',ko:new Date('2026-06-26T19:00:00Z').getTime()},
   // GROUPE J
-  {id:'J1',g:'Groupe J',a:'Argentine',b:'Algérie',d:'17 juin',oa:'Argentina',ob:'Algeria',ko:new Date('2026-06-17T03:00:00Z').getTime()},
-  {id:'J2',g:'Groupe J',a:'Autriche',b:'Jordanie',d:'16 juin',oa:'Austria',ob:'Jordan',ko:new Date('2026-06-16T23:00:00Z').getTime()},
-  {id:'J3',g:'Groupe J',a:'Argentine',b:'Autriche',d:'20 juin',oa:'Argentina',ob:'Austria',ko:new Date('2026-06-20T19:00:00Z').getTime()},
-  {id:'J4',g:'Groupe J',a:'Algérie',b:'Jordanie',d:'21 juin',oa:'Algeria',ob:'Jordan',ko:new Date('2026-06-21T01:00:00Z').getTime()},
-  {id:'J5',g:'Groupe J',a:'Argentine',b:'Jordanie',d:'24 juin',oa:'Argentina',ob:'Jordan',ko:new Date('2026-06-24T04:00:00Z').getTime()},
-  {id:'J6',g:'Groupe J',a:'Algérie',b:'Autriche',d:'24 juin',oa:'Algeria',ob:'Austria',ko:new Date('2026-06-24T19:00:00Z').getTime()},
+  {id:'J1',g:'Groupe J',a:'Argentine',b:'Algérie',d:'17 juin',oa:'Argentina',ob:'Algeria',ko:new Date('2026-06-17T01:00:00Z').getTime()},
+  {id:'J2',g:'Groupe J',a:'Autriche',b:'Jordanie',d:'16 juin',oa:'Austria',ob:'Jordan',ko:new Date('2026-06-16T04:00:00Z').getTime()},
+  {id:'J3',g:'Groupe J',a:'Argentine',b:'Autriche',d:'20 juin',oa:'Argentina',ob:'Austria',ko:new Date('2026-06-22T17:00:00Z').getTime()},
+  {id:'J4',g:'Groupe J',a:'Algérie',b:'Jordanie',d:'21 juin',oa:'Algeria',ob:'Jordan',ko:new Date('2026-06-23T03:00:00Z').getTime()},
+  {id:'J5',g:'Groupe J',a:'Argentine',b:'Jordanie',d:'24 juin',oa:'Argentina',ob:'Jordan',ko:new Date('2026-06-28T02:00:00Z').getTime()},
+  {id:'J6',g:'Groupe J',a:'Algérie',b:'Autriche',d:'24 juin',oa:'Algeria',ob:'Austria',ko:new Date('2026-06-28T02:00:00Z').getTime()},
   // GROUPE K
-  {id:'K1',g:'Groupe K',a:'Portugal',b:'RD Congo',d:'17 juin',oa:'Portugal',ob:'DR Congo',ko:new Date('2026-06-17T22:00:00Z').getTime()},
-  {id:'K2',g:'Groupe K',a:'Ouzbékistan',b:'Colombie',d:'18 juin',oa:'Uzbekistan',ob:'Colombia',ko:new Date('2026-06-18T01:00:00Z').getTime()},
-  {id:'K3',g:'Groupe K',a:'Portugal',b:'Ouzbékistan',d:'21 juin',oa:'Portugal',ob:'Uzbekistan',ko:new Date('2026-06-21T19:00:00Z').getTime()},
-  {id:'K4',g:'Groupe K',a:'RD Congo',b:'Colombie',d:'22 juin',oa:'DR Congo',ob:'Colombia',ko:new Date('2026-06-22T01:00:00Z').getTime()},
-  {id:'K5',g:'Groupe K',a:'Portugal',b:'Colombie',d:'25 juin',oa:'Portugal',ob:'Colombia',ko:new Date('2026-06-25T22:00:00Z').getTime()},
-  {id:'K6',g:'Groupe K',a:'RD Congo',b:'Ouzbékistan',d:'25 juin',oa:'DR Congo',ob:'Uzbekistan',ko:new Date('2026-06-25T22:00:00Z').getTime()},
+  {id:'K1',g:'Groupe K',a:'Portugal',b:'RD Congo',d:'17 juin',oa:'Portugal',ob:'DR Congo',ko:new Date('2026-06-17T17:00:00Z').getTime()},
+  {id:'K2',g:'Groupe K',a:'Ouzbékistan',b:'Colombie',d:'18 juin',oa:'Uzbekistan',ob:'Colombia',ko:new Date('2026-06-18T02:00:00Z').getTime()},
+  {id:'K3',g:'Groupe K',a:'Portugal',b:'Ouzbékistan',d:'21 juin',oa:'Portugal',ob:'Uzbekistan',ko:new Date('2026-06-23T17:00:00Z').getTime()},
+  {id:'K4',g:'Groupe K',a:'RD Congo',b:'Colombie',d:'22 juin',oa:'DR Congo',ob:'Colombia',ko:new Date('2026-06-24T02:00:00Z').getTime()},
+  {id:'K5',g:'Groupe K',a:'Portugal',b:'Colombie',d:'25 juin',oa:'Portugal',ob:'Colombia',ko:new Date('2026-06-27T23:30:00Z').getTime()},
+  {id:'K6',g:'Groupe K',a:'RD Congo',b:'Ouzbékistan',d:'25 juin',oa:'DR Congo',ob:'Uzbekistan',ko:new Date('2026-06-27T23:30:00Z').getTime()},
   // GROUPE L
-  {id:'L1',g:'Groupe L',a:'Angleterre',b:'Croatie',d:'17 juin',oa:'England',ob:'Croatia',ko:new Date('2026-06-17T22:00:00Z').getTime()},
-  {id:'L2',g:'Groupe L',a:'Ghana',b:'Panama',d:'18 juin',oa:'Ghana',ob:'Panama',ko:new Date('2026-06-18T22:00:00Z').getTime()},
-  {id:'L3',g:'Groupe L',a:'Angleterre',b:'Ghana',d:'21 juin',oa:'England',ob:'Ghana',ko:new Date('2026-06-21T22:00:00Z').getTime()},
-  {id:'L4',g:'Groupe L',a:'Croatie',b:'Panama',d:'22 juin',oa:'Croatia',ob:'Panama',ko:new Date('2026-06-22T01:00:00Z').getTime()},
-  {id:'L5',g:'Groupe L',a:'Angleterre',b:'Panama',d:'27 juin',oa:'England',ob:'Panama',ko:new Date('2026-06-27T23:00:00Z').getTime()},
-  {id:'L6',g:'Groupe L',a:'Croatie',b:'Ghana',d:'27 juin',oa:'Croatia',ob:'Ghana',ko:new Date('2026-06-27T23:00:00Z').getTime()},
+  {id:'L1',g:'Groupe L',a:'Angleterre',b:'Croatie',d:'17 juin',oa:'England',ob:'Croatia',ko:new Date('2026-06-16T19:00:00Z').getTime()},
+  {id:'L2',g:'Groupe L',a:'Ghana',b:'Panama',d:'18 juin',oa:'Ghana',ob:'Panama',ko:new Date('2026-06-17T23:00:00Z').getTime()},
+  {id:'L3',g:'Groupe L',a:'Angleterre',b:'Ghana',d:'21 juin',oa:'England',ob:'Ghana',ko:new Date('2026-06-23T20:00:00Z').getTime()},
+  {id:'L4',g:'Groupe L',a:'Croatie',b:'Panama',d:'22 juin',oa:'Croatia',ob:'Panama',ko:new Date('2026-06-23T23:00:00Z').getTime()},
+  {id:'L5',g:'Groupe L',a:'Angleterre',b:'Panama',d:'27 juin',oa:'England',ob:'Panama',ko:new Date('2026-06-27T21:00:00Z').getTime()},
+  {id:'L6',g:'Groupe L',a:'Croatie',b:'Ghana',d:'27 juin',oa:'Croatia',ob:'Ghana',ko:new Date('2026-06-27T21:00:00Z').getTime()},
 ];
 
 const KO_PHASES = [
@@ -623,8 +623,10 @@ function bootApp() {
   updatePlayerSelect();
   document.getElementById('stat-players').textContent = state.participants.length;
   if(state.lastSync){
-    const total = Object.keys(state.autoResults).length;
-    setSyncState('ok',`Dernière sync: ${fmtTime(state.lastSync)} · ${total} résultat${total>1?'s':''} chargé${total>1?'s':''}`);
+    const totalA2 = Object.keys(state.autoResults).length;
+    const totalM2 = Object.keys(state.results).filter(id=>!state.autoResults[id]&&state.results[id]&&state.results[id].a!==''&&state.results[id].b!=='').length;
+    const total2b = totalA2 + totalM2;
+    setSyncState('ok',`Dernière sync: ${fmtTime(state.lastSync)} · ${total2b} résultat${total2b>1?'s':''} chargé${total2b>1?'s':''}`);
   }
   updateKOTeamsFromBracket();
   startAutoSync();
@@ -655,7 +657,8 @@ function getResult(id){
 /* ══════════════════════════════════════════
    LIVE SYNC — openfootball
 ══════════════════════════════════════════ */
-const API_URL='https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json';
+const API_URL='https://api.football-data.org/v4/competitions/WC/matches';
+const API_KEY='43c78387564f4b6cadd20a6448f5a4a1';
 let syncInterval=null;
 let liveMatchIds=new Set();
 
@@ -672,13 +675,59 @@ function buildMatchLookup(){
 const matchLookup=buildMatchLookup();
 
 function normalizeTeam(name){
-  // map common alternative names
+  // Noms football-data.org → noms openfootball (pour la lookup)
   const aliases={
-    'us':'USA','united states':'USA','united states of america':'USA',
-    'ir iran':'Iran','korea republic':'South Korea','korea republic of':'South Korea',
-    'republic of korea':'South Korea','czechia':'Czech Republic','czech republic':'Czech Republic',
-    "côte d'ivoire":'Ivory Coast','cote d ivoire':'Ivory Coast','ivory coast':'Ivory Coast',
-    'england':'England','great britain':'England',
+    // football-data.org names
+    'united states':'USA','united states of america':'USA',
+    'ir iran':'Iran','iran (islamic republic of)':'Iran',
+    'korea republic':'South Korea','republic of korea':'South Korea',
+    'czechia':'Czech Republic',
+    "côte d'ivoire":'Ivory Coast',"cote d'ivoire":'Ivory Coast','cote d ivoire':'Ivory Coast','ivory coast':'Ivory Coast',
+    'england':'England',
+    'cape verde':'Cape Verde',
+    'saudi arabia':'Saudi Arabia',
+    'new zealand':'New Zealand',
+    'bosnia and herzegovina':'Bosnia-Herzegovina','bosnia-herzegovina':'Bosnia-Herzegovina',
+    'dr congo':'DR Congo','democratic republic of the congo':'DR Congo',
+    'uzbekistan':'Uzbekistan',
+    'northern ireland':'Northern Ireland',
+    'scotland':'Scotland',
+    'curacao':'Curacao',
+    'senegal':'Senegal',
+    'algeria':'Algeria',
+    'norway':'Norway',
+    'austria':'Austria',
+    'jordan':'Jordan',
+    'croatia':'Croatia',
+    'ghana':'Ghana',
+    'panama':'Panama',
+    'paraguay':'Paraguay',
+    'ecuador':'Ecuador',
+    'tunisia':'Tunisia',
+    'sweden':'Sweden',
+    'haiti':'Haiti',
+    'australia':'Australia',
+    'turkey':'Turkey',
+    'japan':'Japan',
+    'netherlands':'Netherlands',
+    'belgium':'Belgium',
+    'egypt':'Egypt',
+    'uruguay':'Uruguay',
+    'france':'France',
+    'germany':'Germany',
+    'brazil':'Brazil',
+    'portugal':'Portugal',
+    'spain':'Spain',
+    'argentina':'Argentina',
+    'england':'England',
+    'mexico':'Mexico',
+    'canada':'Canada',
+    'morocco':'Morocco',
+    'colombia':'Colombia',
+    'switzerland':'Switzerland',
+    'south africa':'South Africa',
+    'iraq':'Iraq',
+    'qatar':'Qatar',
   };
   const n=name.toLowerCase().trim();
   return aliases[n]||name;
@@ -687,7 +736,10 @@ function normalizeTeam(name){
 async function syncNow(){
   setSyncState('loading','Récupération des scores…');
   try{
-    const res=await fetch(API_URL+'?_='+Date.now(),{cache:'no-store'});
+    const res=await fetch(API_URL+'?_='+Date.now(),{
+      cache:'no-store',
+      headers:{'X-Auth-Token':API_KEY}
+    });
     if(!res.ok)throw new Error('HTTP '+res.status);
     const data=await res.json();
     processAPIData(data);
@@ -703,14 +755,23 @@ function processAPIData(data){
   liveMatchIds=new Set();
 
   data.matches.forEach(m=>{
-    if(!m.score)return; // no result yet
-    const ft=m.score.ft;
-    if(!ft||ft.length<2)return;
-    const [sa,sb]=[ft[0],ft[1]];
+    const status=m.status||'';
+    const isFinished=status==='FINISHED';
+    const isLive=status==='IN_PLAY'||status==='PAUSED';
+
+    // Ne traiter que les matchs terminés ou en cours
+    if(!isFinished&&!isLive)return;
+
+    const score=m.score;
+    if(!score)return;
+    const ft=score.fullTime;
+    if(!ft||ft.home===null||ft.away===null)return;
+    const sa=ft.home;
+    const sb=ft.away;
     if(typeof sa!=='number'||typeof sb!=='number')return;
 
-    const t1=normalizeTeam(m.team1||'');
-    const t2=normalizeTeam(m.team2||'');
+    const t1=normalizeTeam((m.homeTeam&&m.homeTeam.name)||'');
+    const t2=normalizeTeam((m.awayTeam&&m.awayTeam.name)||'');
     const key=(t1+'|||'+t2).toLowerCase();
     const match=matchLookup[key];
     if(!match)return;
@@ -719,25 +780,35 @@ function processAPIData(data){
     const swapped=typeof match==='object'&&match.swapped;
     const [ra,rb]=swapped?[sb,sa]:[sa,sb];
 
+    if(isLive)liveMatchIds.add(id);
+
     const prev=state.autoResults[id]||{};
     if(prev.a!==String(ra)||prev.b!==String(rb)){
       state.autoResults[id]={a:String(ra),b:String(rb)};
       updated++;
     }
-
-    // detect live (score present but no 'ft' status — heuristic: check if match is today)
-    // openfootball doesn't have live status, so we use a date proximity check
   });
 
   state.lastSync=new Date().toISOString();
-  save();
+  // ── CORRECTIF : écriture ciblée autoResults uniquement (ne pas écraser results manuels)
+  try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
+  if(db) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      db.ref('/concours/autoResults').set(state.autoResults).catch(e=>console.error('Firebase autoResults write error:',e));
+      db.ref('/concours/lastSync').set(state.lastSync).catch(e=>{});
+    }, 800);
+  }
   updateKOTeamsFromBracket();
 
   const countEl=document.getElementById('sync-count');
   if(updated>0){countEl.textContent=`+${updated} mis à jour`;countEl.classList.add('show');}
   else{countEl.classList.remove('show');}
 
-  const total=Object.keys(state.autoResults).length;
+  // ── CORRECTIF compteur : inclure aussi les saisies manuelles
+  const totalAuto=Object.keys(state.autoResults).length;
+  const totalManual=Object.keys(state.results).filter(id=>state.results[id]&&state.results[id].a!==''&&state.results[id].b!=='').length;
+  const total=totalAuto+Object.keys(state.results).filter(id=>!state.autoResults[id]&&state.results[id]&&state.results[id].a!==''&&state.results[id].b!=='').length;
   setSyncState('ok',`Dernière sync : ${fmtTime(state.lastSync)} · ${total} résultat${total>1?'s':''} chargé${total>1?'s':''}`);
 
   // Re-render active tab
@@ -775,7 +846,7 @@ function clearAutoResults(){
 
 function startAutoSync(){
   syncNow();
-  syncInterval=setInterval(syncNow,5*60*1000); // every 5 min
+  syncInterval=setInterval(syncNow,15*60*1000); // every 15 min
 }
 
 /* ══════════════════════════════════════════
@@ -1039,8 +1110,9 @@ function resultRow(id,teamA,teamB,date){
   const manual=state.results[id]||{};
   const isAuto=r.source==='auto';
   const autoClass=isAuto?'auto-filled':'';
-  const valA=isAuto&&manual.a===undefined?r.a:(manual.a!==undefined?manual.a:r.a);
-  const valB=isAuto&&manual.b===undefined?r.b:(manual.b!==undefined?manual.b:r.b);
+  // ── CORRECTIF : priorité absolue à la saisie manuelle
+  const valA=manual.a!==undefined&&manual.a!==''?manual.a:(isAuto?r.a:'');
+  const valB=manual.b!==undefined&&manual.b!==''?manual.b:(isAuto?r.b:'');
   const autoTag=isAuto&&(manual.a===undefined||manual.a==='')&&(manual.b===undefined||manual.b==='')
     ?`<span style="font-size:9px;color:var(--green);" title="Score importé auto">● auto</span>`:'';
   return `<div class="match-block">
