@@ -447,16 +447,54 @@ const GROUP_MATCHES = [
   {id:'L6',g:'Groupe L',a:'Croatie',b:'Ghana',d:'27 juin',oa:'Croatia',ob:'Ghana',ko:new Date('2026-06-27T21:00:00Z').getTime()},
 ];
 
+// Timestamps officiels (calendrier FIFA, converti en UTC) pour le verrouillage auto
+const KO_TIMESTAMPS = {
+  R32_1:  new Date('2026-06-28T19:00:00Z').getTime(),
+  R32_2:  new Date('2026-06-29T17:00:00Z').getTime(),
+  R32_3:  new Date('2026-06-29T20:30:00Z').getTime(),
+  R32_4:  new Date('2026-06-30T01:00:00Z').getTime(),
+  R32_5:  new Date('2026-06-30T17:00:00Z').getTime(),
+  R32_6:  new Date('2026-06-30T21:00:00Z').getTime(),
+  R32_7:  new Date('2026-07-01T01:00:00Z').getTime(),
+  R32_8:  new Date('2026-07-01T16:00:00Z').getTime(),
+  R32_9:  new Date('2026-07-01T20:00:00Z').getTime(),
+  R32_10: new Date('2026-07-02T00:00:00Z').getTime(),
+  R32_11: new Date('2026-07-02T19:00:00Z').getTime(),
+  R32_12: new Date('2026-07-02T22:00:00Z').getTime(),
+  R32_13: new Date('2026-07-02T23:00:00Z').getTime(),
+  R32_14: new Date('2026-07-03T01:30:00Z').getTime(),
+  R32_15: new Date('2026-07-03T03:00:00Z').getTime(),
+  R32_16: new Date('2026-07-03T18:00:00Z').getTime(),
+  R16_1:  new Date('2026-07-04T17:00:00Z').getTime(),
+  R16_2:  new Date('2026-07-04T21:00:00Z').getTime(),
+  R16_3:  new Date('2026-07-05T20:00:00Z').getTime(),
+  R16_4:  new Date('2026-07-06T00:00:00Z').getTime(),
+  R16_5:  new Date('2026-07-06T19:00:00Z').getTime(),
+  R16_6:  new Date('2026-07-07T00:00:00Z').getTime(),
+  R16_7:  new Date('2026-07-07T16:00:00Z').getTime(),
+  R16_8:  new Date('2026-07-07T20:00:00Z').getTime(),
+  QF_1:   new Date('2026-07-09T20:00:00Z').getTime(),
+  QF_2:   new Date('2026-07-10T19:00:00Z').getTime(),
+  QF_3:   new Date('2026-07-11T21:00:00Z').getTime(),
+  QF_4:   new Date('2026-07-12T01:00:00Z').getTime(),
+  SF_1:   new Date('2026-07-14T19:00:00Z').getTime(),
+  SF_2:   new Date('2026-07-15T19:00:00Z').getTime(),
+  P3_1:   new Date('2026-07-18T21:00:00Z').getTime(),
+  FINAL_1:new Date('2026-07-19T19:00:00Z').getTime(),
+};
+
 const KO_PHASES = [
-  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,win:2},dates:['29 juin','29 juin','30 juin','30 juin','1 juil.','1 juil.','2 juil.','2 juil.','3 juil.','3 juil.','4 juil.','4 juil.','5 juil.','5 juil.','6 juil.','6 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:0}))},
-  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,win:2},dates:['7 juil.','7 juil.','8 juil.','8 juil.','9 juil.','9 juil.','10 juil.','10 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:0}))},
-  {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,win:3},dates:['11 juil.','11 juil.','12 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:0}))},
-  {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:0}))},
-  {id:'p3',label:'Petite finale',icon:'🥉',badge:'ko',pts:{exact:5,win:3},dates:['18 juil.'],matches:[{id:'P3_1',num:1,ko:0}]},
-  {id:'final',label:'Finale',icon:'🏆',badge:'final',pts:{exact:5,win:3},dates:['19 juil.'],matches:[{id:'FINAL_1',num:1,ko:0}]},
+  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,win:2},dates:['29 juin','29 juin','29 juin','30 juin','30 juin','30 juin','1 juil.','1 juil.','1 juil.','2 juil.','2 juil.','2 juil.','3 juil.','3 juil.','3 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
+  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,win:2},dates:['4 juil.','4 juil.','5 juil.','6 juil.','6 juil.','7 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
+  {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,win:3},dates:['9 juil.','10 juil.','11 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`QF_${i+1}`]}))},
+  {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`SF_${i+1}`]}))},
+  {id:'p3',label:'Petite finale',icon:'🥉',badge:'ko',pts:{exact:5,win:3},dates:['18 juil.'],matches:[{id:'P3_1',num:1,ko:KO_TIMESTAMPS['P3_1']}]},
+  {id:'final',label:'Finale',icon:'🏆',badge:'final',pts:{exact:5,win:3},dates:['19 juil.'],matches:[{id:'FINAL_1',num:1,ko:KO_TIMESTAMPS['FINAL_1']}]},
 ];
 
 function getKOPhase(matchId){for(const ph of KO_PHASES){if(ph.matches.find(m=>m.id===matchId))return ph;}return null;}
+
+
 
 /* ══════════════════════════════════════════
    LOCK LOGIC — verrou 5 min avant le KO
@@ -466,10 +504,11 @@ const LOCK_BEFORE_MS = 5 * 60 * 1000; // 5 minutes
 // ── MODE ADMIN : ?admin=true dans l'URL désactive le verrou ──────
 const ADMIN_MODE = new URLSearchParams(window.location.search).get('admin') === 'true';
 
-// Build a map id→ko timestamp
+// Build a map id→ko timestamp (matchs de groupe + phases éliminatoires)
 const MATCH_KO = {};
 GROUP_MATCHES.forEach(m => { MATCH_KO[m.id] = m.ko; });
-// KO phases: ko=0 means unknown → never locked automatically (admin locks manually)
+Object.keys(KO_TIMESTAMPS).forEach(id => { MATCH_KO[id] = KO_TIMESTAMPS[id]; });
+// Verrouillage automatique actif sur tous les matchs (groupes + éliminatoires)
 
 function isLocked(matchId) {
   if(ADMIN_MODE) return false; // mode admin : jamais verrouillé
