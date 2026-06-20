@@ -663,8 +663,7 @@ function getResult(id){
 /* ══════════════════════════════════════════
    LIVE SYNC — openfootball
 ══════════════════════════════════════════ */
-const API_URL='https://api.football-data.org/v4/competitions/WC/matches';
-const API_KEY='43c78387564f4b6cadd20a6448f5a4a1';
+const API_URL='https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json';
 let syncInterval=null;
 let liveMatchIds=new Set();
 
@@ -742,10 +741,7 @@ function normalizeTeam(name){
 async function syncNow(){
   setSyncState('loading','Récupération des scores…');
   try{
-    const res=await fetch(API_URL+'?_='+Date.now(),{
-      cache:'no-store',
-      headers:{'X-Auth-Token':API_KEY}
-    });
+    const res=await fetch(API_URL+'?_='+Date.now(),{cache:'no-store'});
     if(!res.ok)throw new Error('HTTP '+res.status);
     const data=await res.json();
     processAPIData(data);
@@ -761,23 +757,14 @@ function processAPIData(data){
   liveMatchIds=new Set();
 
   data.matches.forEach(m=>{
-    const status=m.status||'';
-    const isFinished=status==='FINISHED';
-    const isLive=status==='IN_PLAY'||status==='PAUSED';
-
-    // Ne traiter que les matchs terminés ou en cours
-    if(!isFinished&&!isLive)return;
-
-    const score=m.score;
-    if(!score)return;
-    const ft=score.fullTime;
-    if(!ft||ft.home===null||ft.away===null)return;
-    const sa=ft.home;
-    const sb=ft.away;
+    if(!m.score)return; // pas encore de résultat
+    const ft=m.score.ft;
+    if(!ft||ft.length<2)return;
+    const [sa,sb]=[ft[0],ft[1]];
     if(typeof sa!=='number'||typeof sb!=='number')return;
 
-    const t1=normalizeTeam((m.homeTeam&&m.homeTeam.name)||'');
-    const t2=normalizeTeam((m.awayTeam&&m.awayTeam.name)||'');
+    const t1=normalizeTeam(m.team1||'');
+    const t2=normalizeTeam(m.team2||'');
     const key=(t1+'|||'+t2).toLowerCase();
     const match=matchLookup[key];
     if(!match)return;
@@ -786,7 +773,8 @@ function processAPIData(data){
     const swapped=typeof match==='object'&&match.swapped;
     const [ra,rb]=swapped?[sb,sa]:[sa,sb];
 
-    if(isLive)liveMatchIds.add(id);
+    // openfootball n'indique pas explicitement les matchs "live" (pas de champ status)
+    // on se base donc uniquement sur la présence d'un score
 
     const prev=state.autoResults[id]||{};
     if(prev.a!==String(ra)||prev.b!==String(rb)){
