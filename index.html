@@ -1067,6 +1067,7 @@ function koRowProno(m,ph,date,player,myPlayer){
   const pts=(hasRes&&p.a!==''&&p.b!==''&&visible)?getPts(m.id,p.a,p.b,r.a,r.b):-1;
   const badge=pts>=0?ptsHtml(pts):'';
   const isFinal=ph.id==='final';
+  const lockBadge=lockStatusHtml(m.id);
   const ko=state.koTeams[m.id]||{};
   const teamA=ko.a||`Équipe ${m.num}A`;
   const teamB=ko.b||`Équipe ${m.num}B`;
@@ -1086,7 +1087,7 @@ function koRowProno(m,ph,date,player,myPlayer){
 
   return `<div class="ko-match-block">
     <div class="ko-match-card${hasRes?' has-result':''}${isFinal?' is-final':''}${locked?' locked-row':''}">
-      <div class="ko-date">${date}</div>
+      <div class="ko-date" style="display:flex;align-items:center;justify-content:center;gap:8px;">${date}${lockBadge}</div>
       <div class="ko-teams-row">
         <input class="ko-team-input team-a${isAutoA?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value);renderPronostics()" />
         ${scoreA}
