@@ -315,8 +315,10 @@ input[type=number].auto-filled:focus{border-color:var(--green);}
         <div class="rule-item"><div><div style="font-size:13px;">Bon vainqueur (poule)</div><div class="rule-label">Gagnant correct</div></div><div class="rule-pts">1</div></div>
         <div class="rule-item"><div><div style="font-size:13px;">Nul prédit correct</div><div class="rule-label">Match nul bien anticipé</div></div><div class="rule-pts">1</div></div>
         <div class="rule-item"><div><div style="font-size:13px;">Score exact (16e/8e)</div><div class="rule-label">Phase éliminatoire</div></div><div class="rule-pts" style="color:#7be0a0;">4</div></div>
+        <div class="rule-item"><div><div style="font-size:13px;">Bonne différence (16e/8e)</div><div class="rule-label">Bon vainqueur + diff.</div></div><div class="rule-pts" style="color:#7be0a0;">3</div></div>
         <div class="rule-item"><div><div style="font-size:13px;">Bon vainqueur (16e/8e)</div><div class="rule-label">Phase éliminatoire</div></div><div class="rule-pts" style="color:#7be0a0;">2</div></div>
         <div class="rule-item"><div><div style="font-size:13px;">Score exact (QF/SF/F)</div><div class="rule-label">Quarts, demies, finale</div></div><div class="rule-pts" style="color:var(--purple);">5</div></div>
+        <div class="rule-item"><div><div style="font-size:13px;">Bonne différence (QF/SF/F)</div><div class="rule-label">Bon vainqueur + diff.</div></div><div class="rule-pts" style="color:var(--purple);">4</div></div>
         <div class="rule-item"><div><div style="font-size:13px;">Bon vainqueur (QF/SF/F)</div><div class="rule-label">Quarts, demies, finale</div></div><div class="rule-pts" style="color:var(--purple);">3</div></div>
       </div>
     </div>
@@ -484,12 +486,12 @@ const KO_TIMESTAMPS = {
 };
 
 const KO_PHASES = [
-  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,win:2},dates:['29 juin','29 juin','29 juin','30 juin','30 juin','30 juin','1 juil.','1 juil.','1 juil.','2 juil.','2 juil.','2 juil.','3 juil.','3 juil.','3 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
-  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,win:2},dates:['4 juil.','4 juil.','5 juil.','6 juil.','6 juil.','7 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
-  {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,win:3},dates:['9 juil.','10 juil.','11 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`QF_${i+1}`]}))},
-  {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`SF_${i+1}`]}))},
-  {id:'p3',label:'Petite finale',icon:'🥉',badge:'ko',pts:{exact:5,win:3},dates:['18 juil.'],matches:[{id:'P3_1',num:1,ko:KO_TIMESTAMPS['P3_1']}]},
-  {id:'final',label:'Finale',icon:'🏆',badge:'final',pts:{exact:5,win:3},dates:['19 juil.'],matches:[{id:'FINAL_1',num:1,ko:KO_TIMESTAMPS['FINAL_1']}]},
+  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['29 juin','29 juin','29 juin','30 juin','30 juin','30 juin','1 juil.','1 juil.','1 juil.','2 juil.','2 juil.','2 juil.','3 juil.','3 juil.','3 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
+  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['4 juil.','4 juil.','5 juil.','6 juil.','6 juil.','7 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
+  {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['9 juil.','10 juil.','11 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`QF_${i+1}`]}))},
+  {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`SF_${i+1}`]}))},
+  {id:'p3',label:'Petite finale',icon:'🥉',badge:'ko',pts:{exact:5,diff:4,win:3},dates:['18 juil.'],matches:[{id:'P3_1',num:1,ko:KO_TIMESTAMPS['P3_1']}]},
+  {id:'final',label:'Finale',icon:'🏆',badge:'final',pts:{exact:5,diff:4,win:3},dates:['19 juil.'],matches:[{id:'FINAL_1',num:1,ko:KO_TIMESTAMPS['FINAL_1']}]},
 ];
 
 function getKOPhase(matchId){for(const ph of KO_PHASES){if(ph.matches.find(m=>m.id===matchId))return ph;}return null;}
@@ -975,8 +977,10 @@ function getPts(matchId,pa,pb,ra,rb){
   const exact=(pa===ra&&pb===rb);
   const win=(Math.sign(pa-pb)===Math.sign(ra-rb)&&(pa!==pb||ra!==rb));
   const draw=(pa===pb&&ra===rb);
+  const goodDiff=((pa-pb)===(ra-rb))&&!exact;
   if(ph){
     if(exact)return ph.pts.exact;
+    if(goodDiff)return ph.pts.diff;
     if(win)return ph.pts.win;
     return 0;
   }
@@ -1013,7 +1017,7 @@ function renderPronostics(){
     <div class="phase-header">
       <div class="phase-icon ${ph.badge==='final'?'final':'ko'}">${ph.icon}</div>
       <div class="phase-title">${ph.label}</div>
-      <span class="phase-badge ${ph.badge}">+${ph.pts.exact} exacts · +${ph.pts.win} vainqueur</span>
+      <span class="phase-badge ${ph.badge}">+${ph.pts.exact} exacts · +${ph.pts.diff} diff. · +${ph.pts.win} vainqueur</span>
     </div>
     <div class="card">${ph.matches.map((m,i)=>koRowProno(m,ph,ph.dates[i]||'',player,myPlayer)).join('')}</div>
   `).join('');
