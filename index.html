@@ -590,7 +590,7 @@ function initFirebase() {
       const data = snap.val();
       if(data) {
         state.participants  = data.participants  || [];
-        state.pronostics    = data.pronostics    || {};
+        state.pronostics    = decodePronosticsKeys(data.pronostics || {});
         state.results       = data.results       || {};
         state.autoResults   = data.autoResults   || {};
         state.koTeams       = data.koTeams       || {};
@@ -623,14 +623,12 @@ function save() {
   if(!db) return;
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    db.ref('/concours').set({
-      participants: state.participants,
-      pronostics:   state.pronostics,
-      results:      state.results,
-      autoResults:  state.autoResults,
-      koTeams:      state.koTeams,
-      lastSync:     state.lastSync
-    }).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
+    // NB: les pronostics sont sauvegardés séparément via saveProno() pour éviter les collisions
+    db.ref('/concours/participants').set(state.participants).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
+    db.ref('/concours/results').set(state.results).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
+    db.ref('/concours/autoResults').set(state.autoResults).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
+    db.ref('/concours/koTeams').set(state.koTeams).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
+    if(state.lastSync) db.ref('/concours/lastSync').set(state.lastSync).catch(e=>{});
   }, 800);
 }
 
@@ -914,7 +912,9 @@ function addParticipant(){
 function removeParticipant(name){
   if(!confirm('Supprimer '+name+' ?'))return;
   state.participants=state.participants.filter(p=>p!==name);
-  delete state.pronostics[name];save();
+  delete state.pronostics[name];
+  save();
+  if(db) db.ref('/concours/pronostics/'+encodeFirebaseKey(name)).remove().catch(e=>console.error('Firebase remove error:',e));
   renderParticipants();
   document.getElementById('stat-players').textContent=state.participants.length;
 }
@@ -953,7 +953,35 @@ function getProno(player,id){return(state.pronostics[player]||{})[id]||{a:'',b:'
 function setProno(player,id,side,val){
   if(!state.pronostics[player])state.pronostics[player]={};
   if(!state.pronostics[player][id])state.pronostics[player][id]={a:'',b:''};
-  state.pronostics[player][id][side]=val;save();
+  state.pronostics[player][id][side]=val;
+  saveProno(player,id);
+}
+
+// ── Sauvegarde ciblée d'un seul pronostic (évite les collisions entre joueurs) ──
+let pronoSaveTimers = {};
+function saveProno(player,id){
+  try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
+  if(!db) return;
+  const key = player+'|'+id;
+  clearTimeout(pronoSaveTimers[key]);
+  pronoSaveTimers[key] = setTimeout(() => {
+    db.ref('/concours/pronostics/'+encodeFirebaseKey(player)+'/'+id)
+      .set(state.pronostics[player][id])
+      .catch(e => { console.error('Firebase prono write error:', e); showFbError(e.message); });
+  }, 800);
+}
+
+// Firebase n'autorise pas certains caractères (. # $ [ ] /) dans les clés
+function encodeFirebaseKey(k){
+  return encodeURIComponent(k).replace(/\./g,'%2E');
+}
+function decodePronosticsKeys(raw){
+  const out={};
+  Object.keys(raw).forEach(k=>{
+    try { out[decodeURIComponent(k.replace(/%2E/g,'.'))] = raw[k]; }
+    catch(e){ out[k]=raw[k]; }
+  });
+  return out;
 }
 function setManualResult(id,side,val){
   if(!state.results[id])state.results[id]={a:'',b:''};
