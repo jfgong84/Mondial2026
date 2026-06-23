@@ -1225,17 +1225,22 @@ function renderLeaderboard(){
     ...KO_PHASES.flatMap(ph=>ph.matches.map(m=>m.id)),
   ];
   const rows=state.participants.map(p=>{
-    let pts=0,exact=0,good=0,played=0;
+    let pts=0,exact=0,diff=0,good=0,played=0;
     allMatchIds.forEach(id=>{
       const r=getResult(id);
       const pr=getProno(p,id);
       if(r.a!==''&&r.b!==''&&pr.a!==''&&pr.b!==''){
         played++;
         const s=getPts(id,pr.a,pr.b,r.a,r.b);
-        if(s>0){pts+=s;good++;const ra=parseInt(r.a),rb=parseInt(r.b),pa=parseInt(pr.a),pb=parseInt(pr.b);if(pa===ra&&pb===rb)exact++;}
+        if(s>0){
+          pts+=s;good++;
+          const ra=parseInt(r.a),rb=parseInt(r.b),pa=parseInt(pr.a),pb=parseInt(pr.b);
+          if(pa===ra&&pb===rb)exact++;
+          else if((pa-pb)===(ra-rb))diff++;
+        }
       }
     });
-    return{name:p,pts,exact,good,played};
+    return{name:p,pts,exact,diff,good,played};
   });
   rows.sort((a,b)=>b.pts-a.pts||b.exact-a.exact||b.good-a.good);
   const maxPts=Math.max(rows[0]?rows[0].pts:1,1);
@@ -1245,7 +1250,7 @@ function renderLeaderboard(){
       <div class="lb-bar"></div>
       <div class="lb-rank-badge${i>=3?' normal':''}">${i<3?medals[i]:(i+1)}</div>
       <div class="lb-avatar">${initials(r.name)}</div>
-      <div><div class="lb-name">${r.name}</div><div class="lb-detail">${r.exact} exacts · ${r.good} bons · ${r.played} joués</div></div>
+      <div><div class="lb-name">${r.name}</div><div class="lb-detail">${r.exact} exacts · ${r.diff} bonne diff. · ${r.good} bons · ${r.played} joués</div></div>
       <div><div class="lb-pts">${r.pts}</div><div class="lb-pts-label">points</div></div>
     </li>`).join('')}
   </ul>
