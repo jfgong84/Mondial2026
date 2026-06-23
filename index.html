@@ -1233,16 +1233,17 @@ function renderLeaderboard(){
         played++;
         const s=getPts(id,pr.a,pr.b,r.a,r.b);
         if(s>0){
-          pts+=s;good++;
+          pts+=s;
           const ra=parseInt(r.a),rb=parseInt(r.b),pa=parseInt(pr.a),pb=parseInt(pr.b);
           if(pa===ra&&pb===rb)exact++;
           else if((pa-pb)===(ra-rb))diff++;
+          else good++;
         }
       }
     });
     return{name:p,pts,exact,diff,good,played};
   });
-  rows.sort((a,b)=>b.pts-a.pts||b.exact-a.exact||b.good-a.good);
+  rows.sort((a,b)=>b.pts-a.pts||b.exact-a.exact||b.diff-a.diff||b.good-a.good);
   const maxPts=Math.max(rows[0]?rows[0].pts:1,1);
   const medals=['🥇','🥈','🥉'];
   container.innerHTML=`<ul class="lb-list">
