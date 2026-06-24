@@ -869,6 +869,7 @@ function fmtTime(iso){
 }
 
 function clearAutoResults(){
+  if(!isResultsUnlocked()){ if(!unlockResults())return; }
   if(!confirm('Effacer tous les scores synchronisés automatiquement ?'))return;
   state.autoResults={};save();
   document.getElementById('sync-count').classList.remove('show');
@@ -885,7 +886,28 @@ function startAutoSync(){
 /* ══════════════════════════════════════════
    NAV
 ══════════════════════════════════════════ */
+// ── Protection par mot de passe de l'onglet Résultats ────────────
+const RESULTS_PASSWORD = '1303';
+function isResultsUnlocked(){
+  return localStorage.getItem('wc2026_results_unlocked') === 'yes' || ADMIN_MODE;
+}
+function unlockResults(){
+  const code = prompt('Code requis pour accéder à la saisie des résultats :');
+  if(code === null) return false; // annulé
+  if(code === RESULTS_PASSWORD){
+    localStorage.setItem('wc2026_results_unlocked', 'yes');
+    return true;
+  }
+  alert('Code incorrect.');
+  return false;
+}
+
 function showTab(name){
+  if(name==='resultats' && !isResultsUnlocked()){
+    if(!unlockResults()){
+      return; // accès refusé, on ne change pas d'onglet
+    }
+  }
   const tabs=['participants','pronostics','resultats','classement'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -984,6 +1006,7 @@ function decodePronosticsKeys(raw){
   return out;
 }
 function setManualResult(id,side,val){
+  if(!isResultsUnlocked()){ alert('Saisie reservee — code requis.'); renderResults(); return; }
   if(!state.results[id])state.results[id]={a:'',b:''};
   state.results[id][side]=val;save();
   updateKOTeamsFromBracket();
