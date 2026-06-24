@@ -533,9 +533,9 @@ function lockStatusHtml(matchId) {
     const mins = Math.ceil(diff / 60000);
     return `<span class="lock-badge soon" title="Fermeture dans ${mins} min">⏱ ${mins} min</span>`;
   }
-  // Show kickoff time in local timezone
+  // Show kickoff time in Paris timezone (fixe, indépendant du fuseau de l'appareil)
   const koDate = new Date(ko);
-  const timeStr = koDate.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+  const timeStr = koDate.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Paris'});
   return `<span class="lock-badge open" title="Fermeture 5 min avant le coup d'envoi">🟢 Ferme à ${timeStr}</span>`;
 }
 
