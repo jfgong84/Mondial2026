@@ -1162,11 +1162,11 @@ function koRowProno(m,ph,date,player,myPlayer){
     <div class="ko-match-card${hasRes?' has-result':''}${isFinal?' is-final':''}${locked?' locked-row':''}">
       <div class="ko-date" style="display:flex;align-items:center;justify-content:center;gap:8px;">${date}${lockBadge}</div>
       <div class="ko-teams-row">
-        <input class="ko-team-input team-a${isAutoA?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value)" onblur="renderPronostics()" />
+        <input class="ko-team-input team-a${ko.a?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value)" onblur="renderPronostics()" />
         ${scoreA}
         <div class="ko-sep">:</div>
         ${scoreB}
-        <input class="ko-team-input team-b${isAutoB?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value)" onblur="renderPronostics()" />
+        <input class="ko-team-input team-b${ko.b?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value)" onblur="renderPronostics()" />
       </div>
       ${autoTag}
       ${!visible?`<div class="prono-hidden-row">🔒 Visible après le coup d'envoi</div>`:''}
