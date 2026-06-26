@@ -1015,7 +1015,11 @@ function setManualResult(id,side,val){
 function getKOTeam(id,side){return(state.koTeams[id]||{})[side]||'';}
 function setKOTeam(id,side,val){
   if(!state.koTeams[id])state.koTeams[id]={a:'',b:''};
-  state.koTeams[id][side]=val;save();
+  state.koTeams[id][side]=val;
+  // Marque cette saisie comme manuelle : efface le flag auto pour que la valeur ne soit plus jamais écrasée
+  if(side==='a') delete state.koTeams[id]._autoA;
+  else delete state.koTeams[id]._autoB;
+  save();
 }
 
 function getPts(matchId,pa,pb,ra,rb){
