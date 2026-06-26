@@ -623,11 +623,10 @@ function save() {
   if(!db) return;
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    // NB: les pronostics sont sauvegardés séparément via saveProno() pour éviter les collisions
+    // NB: pronostics via saveProno(), koTeams via saveKOTeam() — écritures ciblées pour éviter les collisions
     db.ref('/concours/participants').set(state.participants).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
     db.ref('/concours/results').set(state.results).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
     db.ref('/concours/autoResults').set(state.autoResults).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
-    db.ref('/concours/koTeams').set(state.koTeams).catch(e => { console.error('Firebase write error:', e); showFbError(e.message); });
     if(state.lastSync) db.ref('/concours/lastSync').set(state.lastSync).catch(e=>{});
   }, 800);
 }
@@ -1019,7 +1018,20 @@ function setKOTeam(id,side,val){
   // Marque cette saisie comme manuelle : efface le flag auto pour que la valeur ne soit plus jamais écrasée
   if(side==='a') delete state.koTeams[id]._autoA;
   else delete state.koTeams[id]._autoB;
-  save();
+  saveKOTeam(id);
+}
+
+// ── Sauvegarde ciblée d'un seul match KO (évite les collisions entre clients) ──
+let koTeamSaveTimers = {};
+function saveKOTeam(matchId){
+  try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
+  if(!db) return;
+  clearTimeout(koTeamSaveTimers[matchId]);
+  koTeamSaveTimers[matchId] = setTimeout(() => {
+    db.ref('/concours/koTeams/'+matchId)
+      .set(state.koTeams[matchId])
+      .catch(e => { console.error('Firebase koTeam write error:', e); showFbError(e.message); });
+  }, 800);
 }
 
 function getPts(matchId,pa,pb,ra,rb){
@@ -1560,7 +1572,19 @@ function updateKOTeamsFromBracket() {
   if(sfW1.known) { state.koTeams['FINAL_1'].a=sfW1.name; }
   if(sfW2.known) { state.koTeams['FINAL_1'].b=sfW2.name; }
 
-  save();
+  // ── Sauvegarde ciblée : un seul write par match, jamais d'écrasement global ──
+  try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
+  const allKOIds = [
+    ...R32_MATCHES.map(m=>m.id),
+    ...R16_PAIRS.map(m=>m.id),
+    ...QF_PAIRS.map(m=>m.id),
+    ...SF_PAIRS.map(m=>m.id),
+    'P3_1','FINAL_1'
+  ];
+  if(db) allKOIds.forEach(id => {
+    if(state.koTeams[id]) saveKOTeam(id);
+  });
+
 }
 
 function getMatchLoser(matchId) {
