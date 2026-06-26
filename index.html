@@ -633,6 +633,9 @@ function save() {
 
 // ── Refresh onglet actif ───────────────────────────────────────
 function refreshActiveTab() {
+  // Ne pas redessiner si l'utilisateur est en train de saisir quelque chose (perte de focus sinon)
+  const focused = document.activeElement;
+  if(focused && (focused.tagName==='INPUT' || focused.tagName==='SELECT')) return;
   const tabs = ['participants','pronostics','resultats','classement'];
   const idx  = [...document.querySelectorAll('.nav-tab')].findIndex(t=>t.classList.contains('active'));
   const name = tabs[idx] || '';
@@ -1159,11 +1162,11 @@ function koRowProno(m,ph,date,player,myPlayer){
     <div class="ko-match-card${hasRes?' has-result':''}${isFinal?' is-final':''}${locked?' locked-row':''}">
       <div class="ko-date" style="display:flex;align-items:center;justify-content:center;gap:8px;">${date}${lockBadge}</div>
       <div class="ko-teams-row">
-        <input class="ko-team-input team-a${isAutoA?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value);renderPronostics()" />
+        <input class="ko-team-input team-a${isAutoA?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value)" onblur="renderPronostics()" />
         ${scoreA}
         <div class="ko-sep">:</div>
         ${scoreB}
-        <input class="ko-team-input team-b${isAutoB?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value);renderPronostics()" />
+        <input class="ko-team-input team-b${isAutoB?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value)" onblur="renderPronostics()" />
       </div>
       ${autoTag}
       ${!visible?`<div class="prono-hidden-row">🔒 Visible après le coup d'envoi</div>`:''}
@@ -1178,6 +1181,9 @@ function startLockRefresh(){
   setInterval(()=>{
     const activeTab=document.querySelector('.nav-tab.active');
     if(!activeTab)return;
+    // Ne pas redessiner si l'utilisateur est en train de saisir quelque chose (perte de focus sinon)
+    const focused = document.activeElement;
+    if(focused && (focused.tagName==='INPUT' || focused.tagName==='SELECT')) return;
     const tabs=['participants','pronostics','resultats','classement'];
     const idx=[...document.querySelectorAll('.nav-tab')].indexOf(activeTab);
     if(tabs[idx]==='pronostics') renderPronostics();
