@@ -1018,9 +1018,10 @@ function getKOTeam(id,side){return(state.koTeams[id]||{})[side]||'';}
 function setKOTeam(id,side,val){
   if(!state.koTeams[id])state.koTeams[id]={a:'',b:''};
   state.koTeams[id][side]=val;
-  // Marque cette saisie comme manuelle : efface le flag auto pour que la valeur ne soit plus jamais écrasée
-  if(side==='a') delete state.koTeams[id]._autoA;
-  else delete state.koTeams[id]._autoB;
+  // Marque cette saisie comme DÉFINITIVEMENT manuelle (flag synchronisé via Firebase,
+  // donc visible par TOUS les clients — pas seulement la mémoire locale de celui qui édite)
+  if(side==='a') state.koTeams[id].manualA = true;
+  else state.koTeams[id].manualB = true;
   saveKOTeam(id);
 }
 
@@ -1524,13 +1525,13 @@ function updateKOTeamsFromBracket() {
     const tA = m.teamA();
     const tB = m.teamB();
     const ko = state.koTeams[m.id] || {a:'',b:''};
-    // Only auto-update if not manually overridden (or if blank)
-    if(tA.known && (!ko.a || ko.a === ko._autoA)) {
+    // Priorité absolue à une correction manuelle (flag synchronisé Firebase)
+    if(!ko.manualA && tA.known && (!ko.a || ko.a === ko._autoA)) {
       if(!state.koTeams[m.id]) state.koTeams[m.id]={a:'',b:''};
       state.koTeams[m.id].a = tA.name;
       state.koTeams[m.id]._autoA = tA.name;
     }
-    if(tB.known && (!ko.b || ko.b === ko._autoB)) {
+    if(!ko.manualB && tB.known && (!ko.b || ko.b === ko._autoB)) {
       if(!state.koTeams[m.id]) state.koTeams[m.id]={a:'',b:''};
       state.koTeams[m.id].b = tB.name;
       state.koTeams[m.id]._autoB = tB.name;
@@ -1542,8 +1543,9 @@ function updateKOTeamsFromBracket() {
     const tA = getMatchWinner(m.a);
     const tB = getMatchWinner(m.b);
     if(!state.koTeams[m.id]) state.koTeams[m.id]={a:'',b:''};
-    if(tA.known) { state.koTeams[m.id].a = tA.name; state.koTeams[m.id]._autoA = tA.name; }
-    if(tB.known) { state.koTeams[m.id].b = tB.name; state.koTeams[m.id]._autoB = tB.name; }
+    const ko = state.koTeams[m.id];
+    if(!ko.manualA && tA.known) { ko.a = tA.name; ko._autoA = tA.name; }
+    if(!ko.manualB && tB.known) { ko.b = tB.name; ko._autoB = tB.name; }
   });
 
   // Sync QF
@@ -1551,8 +1553,9 @@ function updateKOTeamsFromBracket() {
     const tA = getMatchWinner(m.a);
     const tB = getMatchWinner(m.b);
     if(!state.koTeams[m.id]) state.koTeams[m.id]={a:'',b:''};
-    if(tA.known) { state.koTeams[m.id].a = tA.name; state.koTeams[m.id]._autoA = tA.name; }
-    if(tB.known) { state.koTeams[m.id].b = tB.name; state.koTeams[m.id]._autoB = tB.name; }
+    const ko = state.koTeams[m.id];
+    if(!ko.manualA && tA.known) { ko.a = tA.name; ko._autoA = tA.name; }
+    if(!ko.manualB && tB.known) { ko.b = tB.name; ko._autoB = tB.name; }
   });
 
   // Sync SF
@@ -1560,23 +1563,26 @@ function updateKOTeamsFromBracket() {
     const tA = getMatchWinner(m.a);
     const tB = getMatchWinner(m.b);
     if(!state.koTeams[m.id]) state.koTeams[m.id]={a:'',b:''};
-    if(tA.known) { state.koTeams[m.id].a = tA.name; state.koTeams[m.id]._autoA = tA.name; }
-    if(tB.known) { state.koTeams[m.id].b = tB.name; state.koTeams[m.id]._autoB = tB.name; }
+    const ko = state.koTeams[m.id];
+    if(!ko.manualA && tA.known) { ko.a = tA.name; ko._autoA = tA.name; }
+    if(!ko.manualB && tB.known) { ko.b = tB.name; ko._autoB = tB.name; }
   });
 
   // Petite finale : perdants SF1 & SF2
   const sfL1 = getMatchLoser('SF_1');
   const sfL2 = getMatchLoser('SF_2');
   if(!state.koTeams['P3_1']) state.koTeams['P3_1']={a:'',b:''};
-  if(sfL1.known) { state.koTeams['P3_1'].a=sfL1.name; }
-  if(sfL2.known) { state.koTeams['P3_1'].b=sfL2.name; }
+  const koP3 = state.koTeams['P3_1'];
+  if(!koP3.manualA && sfL1.known) { koP3.a=sfL1.name; koP3._autoA=sfL1.name; }
+  if(!koP3.manualB && sfL2.known) { koP3.b=sfL2.name; koP3._autoB=sfL2.name; }
 
   // Finale : vainqueurs SF1 & SF2
   const sfW1 = getMatchWinner('SF_1');
   const sfW2 = getMatchWinner('SF_2');
   if(!state.koTeams['FINAL_1']) state.koTeams['FINAL_1']={a:'',b:''};
-  if(sfW1.known) { state.koTeams['FINAL_1'].a=sfW1.name; }
-  if(sfW2.known) { state.koTeams['FINAL_1'].b=sfW2.name; }
+  const koFinal = state.koTeams['FINAL_1'];
+  if(!koFinal.manualA && sfW1.known) { koFinal.a=sfW1.name; koFinal._autoA=sfW1.name; }
+  if(!koFinal.manualB && sfW2.known) { koFinal.b=sfW2.name; koFinal._autoB=sfW2.name; }
 
   // ── Sauvegarde ciblée : un seul write par match, jamais d'écrasement global ──
   try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
