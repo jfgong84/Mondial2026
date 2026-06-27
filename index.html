@@ -467,14 +467,14 @@ const KO_TIMESTAMPS = {
   R32_14: new Date('2026-07-03T22:00:00Z').getTime(),
   R32_15: new Date('2026-07-04T01:30:00Z').getTime(),
   R32_16: new Date('2026-07-03T18:00:00Z').getTime(),
-  R16_1:  new Date('2026-07-04T21:00:00Z').getTime(),
+  R16_1:  new Date('2026-07-05T20:00:00Z').getTime(),
   R16_2:  new Date('2026-07-04T17:00:00Z').getTime(),
-  R16_3:  new Date('2026-07-05T20:00:00Z').getTime(),
-  R16_4:  new Date('2026-07-06T00:00:00Z').getTime(),
-  R16_5:  new Date('2026-07-07T20:00:00Z').getTime(),
-  R16_6:  new Date('2026-07-06T19:00:00Z').getTime(),
+  R16_3:  new Date('2026-07-07T00:00:00Z').getTime(),
+  R16_4:  new Date('2026-07-06T19:00:00Z').getTime(),
+  R16_5:  new Date('2026-07-04T21:00:00Z').getTime(),
+  R16_6:  new Date('2026-07-06T00:00:00Z').getTime(),
   R16_7:  new Date('2026-07-07T16:00:00Z').getTime(),
-  R16_8:  new Date('2026-07-07T00:00:00Z').getTime(),
+  R16_8:  new Date('2026-07-07T20:00:00Z').getTime(),
   QF_1:   new Date('2026-07-09T20:00:00Z').getTime(),
   QF_2:   new Date('2026-07-10T19:00:00Z').getTime(),
   QF_3:   new Date('2026-07-11T21:00:00Z').getTime(),
@@ -487,7 +487,7 @@ const KO_TIMESTAMPS = {
 
 const KO_PHASES = [
   {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['28 juin','29 juin','30 juin','29 juin','30 juin','30 juin','1 juil.','1 juil.','2 juil.','1 juil.','3 juil.','2 juil.','3 juil.','4 juil.','4 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
-  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['4 juil.','4 juil.','5 juil.','6 juil.','7 juil.','6 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
+  {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['5 juil.','4 juil.','7 juil.','6 juil.','4 juil.','6 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
   {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['9 juil.','10 juil.','11 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`QF_${i+1}`]}))},
   {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`SF_${i+1}`]}))},
   {id:'p3',label:'Petite finale',icon:'🥉',badge:'ko',pts:{exact:5,diff:4,win:3},dates:['18 juil.'],matches:[{id:'P3_1',num:1,ko:KO_TIMESTAMPS['P3_1']}]},
@@ -1449,22 +1449,22 @@ function bestThirdFrom(groupLetters, idx) {
 
 // ── 3b. 8es de finale (vainqueurs des M73..M88) ───────────────────
 const R16_PAIRS = [
-  {id:'R16_1', label:'M89', date:'4 juil.',  a:'R32_2',  b:'R32_5'},  // Lincoln Financial Field, 23h Paris
-  {id:'R16_2', label:'M90', date:'4 juil.',  a:'R32_3',  b:'R32_4'},  // NRG Stadium, 19h Paris
-  {id:'R16_3', label:'M91', date:'5 juil.',  a:'R32_6',  b:'R32_7'},  // MetLife Stadium, 22h Paris
-  {id:'R16_4', label:'M92', date:'6 juil.',  a:'R32_8',  b:'R32_9'},  // Stade Azteca, 2h Paris
-  {id:'R16_5', label:'M93', date:'7 juil.',  a:'R32_1',  b:'R32_14'}, // BC Place, 22h Paris
-  {id:'R16_6', label:'M94', date:'6 juil.',  a:'R32_10', b:'R32_11'}, // AT&T Stadium, 21h Paris
-  {id:'R16_7', label:'M95', date:'7 juil.',  a:'R32_13', b:'R32_15'}, // SoFi Stadium, 18h Paris
-  {id:'R16_8', label:'M96', date:'7 juil.',  a:'R32_12', b:'R32_16'}, // Mercedes-Benz, 2h Paris
+  {id:'R16_1', label:'M91', date:'5 juil.',  a:'R32_2',  b:'R32_5'},  // MetLife Stadium, 22h Paris
+  {id:'R16_2', label:'M89', date:'4 juil.',  a:'R32_1',  b:'R32_3'},  // NRG Stadium, 19h Paris
+  {id:'R16_3', label:'M96', date:'7 juil.',  a:'R32_11', b:'R32_12'}, // Mercedes-Benz, 2h Paris
+  {id:'R16_4', label:'M94', date:'6 juil.',  a:'R32_9',  b:'R32_10'}, // AT&T Stadium, 21h Paris
+  {id:'R16_5', label:'M90', date:'4 juil.',  a:'R32_4',  b:'R32_6'},  // Lincoln Financial Field, 23h Paris
+  {id:'R16_6', label:'M92', date:'6 juil.',  a:'R32_7',  b:'R32_8'},  // Stade Azteca, 2h Paris
+  {id:'R16_7', label:'M95', date:'7 juil.',  a:'R32_14', b:'R32_16'}, // SoFi Stadium, 18h Paris
+  {id:'R16_8', label:'M93', date:'7 juil.',  a:'R32_13', b:'R32_15'}, // BC Place, 22h Paris
 ];
 
 // ── 3c. Quarts, demies, finale ────────────────────────────────────
 const QF_PAIRS = [
-  {id:'QF_1', label:'QF1', date:'11 juil.', a:'R16_1', b:'R16_2'},
-  {id:'QF_2', label:'QF2', date:'11 juil.', a:'R16_5', b:'R16_6'},
-  {id:'QF_3', label:'QF3', date:'12 juil.', a:'R16_3', b:'R16_4'},
-  {id:'QF_4', label:'QF4', date:'12 juil.', a:'R16_7', b:'R16_8'},
+  {id:'QF_1', label:'QF1', date:'9 juil.',  a:'R16_1', b:'R16_2'},  // côté gauche (quarts 1+2)
+  {id:'QF_2', label:'QF2', date:'10 juil.', a:'R16_3', b:'R16_4'},  // côté gauche (quarts 3+4)
+  {id:'QF_3', label:'QF3', date:'11 juil.', a:'R16_5', b:'R16_6'},  // côté droit (quarts 5+6)
+  {id:'QF_4', label:'QF4', date:'12 juil.', a:'R16_7', b:'R16_8'},  // côté droit (quarts 7+8)
 ];
 const SF_PAIRS = [
   {id:'SF_1', label:'SF1', date:'14 juil.', a:'QF_1', b:'QF_2'},
