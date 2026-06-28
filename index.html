@@ -636,6 +636,7 @@ function refreshActiveTab() {
   // Ne pas redessiner si l'utilisateur est en train de saisir quelque chose (perte de focus sinon)
   const focused = document.activeElement;
   if(focused && (focused.tagName==='INPUT' || focused.tagName==='SELECT')) return;
+  applyConfirmedTeams();
   const tabs = ['participants','pronostics','resultats','classement'];
   const idx  = [...document.querySelectorAll('.nav-tab')].findIndex(t=>t.classList.contains('active'));
   const name = tabs[idx] || '';
@@ -688,9 +689,14 @@ function applyConfirmedTeams(){
     const confirmed = CONFIRMED_R32_TEAMS[id];
     if(!state.koTeams[id]) state.koTeams[id] = {a:'',b:''};
     const ko = state.koTeams[id];
-    // N'écrase que si pas déjà figé manuellement avec une AUTRE valeur (respecte une correction ultérieure)
-    if(!ko.manualA && ko.a !== confirmed.a){ ko.a = confirmed.a; ko.manualA = true; changed = true; }
-    if(!ko.manualB && ko.b !== confirmed.b){ ko.b = confirmed.b; ko.manualB = true; changed = true; }
+    // Ces 16 matchs sont officiellement confirmés : la vérité officielle prime toujours,
+    // sauf si une vraie correction manuelle différente a été faite après coup (on la respecte alors).
+    // On ne considère "manuel légitime" que si la valeur diffère ET de l'officiel ET de l'auto précédent
+    // (sinon c'est juste un résidu de l'ancien bug de calcul, pas une vraie intervention humaine).
+    const aLooksLikeOldBug = ko.a !== confirmed.a;
+    const bLooksLikeOldBug = ko.b !== confirmed.b;
+    if(aLooksLikeOldBug && !(ko.manualA && ko.a !== ko._autoA)){ ko.a = confirmed.a; ko.manualA = true; ko._autoA = confirmed.a; changed = true; }
+    if(bLooksLikeOldBug && !(ko.manualB && ko.b !== ko._autoB)){ ko.b = confirmed.b; ko.manualB = true; ko._autoB = confirmed.b; changed = true; }
   });
   if(changed) Object.keys(CONFIRMED_R32_TEAMS).forEach(id => saveKOTeam(id));
 }
