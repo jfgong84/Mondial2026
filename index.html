@@ -330,7 +330,7 @@ input[type=number].auto-filled:focus{border-color:var(--green);}
     <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div>
         <div class="card-head">C'est moi</div>
-        <select id="my-player" onchange="renderPronostics()" style="width:100%;"></select>
+        <select id="my-player" onchange="rememberMyPlayer()" style="width:100%;"></select>
         <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Vos pronostics sont toujours visibles et modifiables.</div>
       </div>
       <div>
@@ -987,7 +987,9 @@ function updatePlayerSelect(){
   const sel=document.getElementById('prono-player');
   const mySel=document.getElementById('my-player');
   if(!sel)return;
-  const curView=sel.value, curMe=mySel?mySel.value:'';
+  // Charge le profil mémorisé sur cet appareil (évite qu'un autre profil reste sélectionné par erreur)
+  const savedMe = localStorage.getItem('wc2026_my_player') || '';
+  const curView=sel.value, curMe=mySel?(mySel.value||savedMe):'';
   const opts=state.participants.length
     ?state.participants.map(p=>`<option value="${p}">${p}</option>`).join('')
     :'<option value="">— Aucun participant —</option>';
@@ -995,6 +997,13 @@ function updatePlayerSelect(){
   if(mySel) mySel.innerHTML=opts;
   if(state.participants.includes(curView)) sel.value=curView;
   if(mySel&&state.participants.includes(curMe)) mySel.value=curMe;
+}
+
+// Sauvegarde le profil "C'est moi" choisi, mémorisé par appareil (localStorage)
+function rememberMyPlayer(){
+  const mySel=document.getElementById('my-player');
+  if(mySel && mySel.value) localStorage.setItem('wc2026_my_player', mySel.value);
+  renderPronostics();
 }
 
 // Returns true if we can see another player's pronostic for this match
