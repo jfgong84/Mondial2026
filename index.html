@@ -461,11 +461,11 @@ const KO_TIMESTAMPS = {
   R32_8:  new Date('2026-07-01T16:00:00Z').getTime(),
   R32_9:  new Date('2026-07-02T00:00:00Z').getTime(),
   R32_10: new Date('2026-07-01T20:00:00Z').getTime(),
-  R32_11: new Date('2026-07-02T23:00:00Z').getTime(),
+  R32_11: new Date('2026-07-04T01:30:00Z').getTime(),
   R32_12: new Date('2026-07-02T19:00:00Z').getTime(),
   R32_13: new Date('2026-07-03T03:00:00Z').getTime(),
   R32_14: new Date('2026-07-03T22:00:00Z').getTime(),
-  R32_15: new Date('2026-07-04T01:30:00Z').getTime(),
+  R32_15: new Date('2026-07-02T23:00:00Z').getTime(),
   R32_16: new Date('2026-07-03T18:00:00Z').getTime(),
   R16_1:  new Date('2026-07-05T20:00:00Z').getTime(),
   R16_2:  new Date('2026-07-04T17:00:00Z').getTime(),
@@ -486,7 +486,7 @@ const KO_TIMESTAMPS = {
 };
 
 const KO_PHASES = [
-  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['28 juin','29 juin','30 juin','29 juin','30 juin','30 juin','1 juil.','1 juil.','2 juil.','1 juil.','3 juil.','2 juil.','3 juil.','4 juil.','4 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
+  {id:'r32',label:'16es de finale',icon:'⚔️',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['28 juin','29 juin','30 juin','29 juin','30 juin','30 juin','1 juil.','1 juil.','2 juil.','1 juil.','4 juil.','2 juil.','3 juil.','4 juil.','3 juil.','3 juil.'],matches:Array.from({length:16},(_,i)=>({id:`R32_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R32_${i+1}`]}))},
   {id:'r16',label:'8es de finale',icon:'⚡',badge:'ko',pts:{exact:4,diff:3,win:2},dates:['5 juil.','4 juil.','7 juil.','6 juil.','4 juil.','6 juil.','7 juil.','7 juil.'],matches:Array.from({length:8},(_,i)=>({id:`R16_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`R16_${i+1}`]}))},
   {id:'qf',label:'Quarts de finale',icon:'🔥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['9 juil.','10 juil.','11 juil.','12 juil.'],matches:Array.from({length:4},(_,i)=>({id:`QF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`QF_${i+1}`]}))},
   {id:'sf',label:'Demi-finales',icon:'💥',badge:'semifinal',pts:{exact:5,diff:4,win:3},dates:['14 juil.','15 juil.'],matches:Array.from({length:2},(_,i)=>({id:`SF_${i+1}`,num:i+1,ko:KO_TIMESTAMPS[`SF_${i+1}`]}))},
