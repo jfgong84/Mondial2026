@@ -666,22 +666,22 @@ function showFbError(msg) {
 // ── Boot (appelé une fois Firebase prêt ou en fallback) ────────
 // ── Équipes officiellement confirmées pour les 16es de finale (figées définitivement) ──
 const CONFIRMED_R32_TEAMS = {
-  R32_1:  {a:'Afrique du Sud', b:'Canada'},
-  R32_2:  {a:'Allemagne',      b:'Paraguay'},
-  R32_3:  {a:'Pays-Bas',       b:'Maroc'},
-  R32_4:  {a:'Brésil',         b:'Japon'},
-  R32_5:  {a:'France',         b:'Suède'},
-  R32_6:  {a:"Côte d'Ivoire",  b:'Norvège'},
-  R32_7:  {a:'Mexique',        b:'Équateur'},
-  R32_8:  {a:'Angleterre',     b:'RD Congo'},
-  R32_9:  {a:'Etats-Unis',     b:'Bosnie-Herzégovine'},
-  R32_10: {a:'Belgique',       b:'Sénégal'},
-  R32_11: {a:'Colombie',       b:'Ghana'},
-  R32_12: {a:'Espagne',        b:'Autriche'},
-  R32_13: {a:'Suisse',         b:'Algérie'},
-  R32_14: {a:'Argentine',      b:'Cap-Vert'},
-  R32_15: {a:'Portugal',       b:'Croatie'},
-  R32_16: {a:'Australie',      b:'Égypte'},
+  R32_1:  {a:'Afrique du Sud', b:'Canada',             oa:'South Africa',  ob:'Canada'},
+  R32_2:  {a:'Allemagne',      b:'Paraguay',           oa:'Germany',       ob:'Paraguay'},
+  R32_3:  {a:'Pays-Bas',       b:'Maroc',              oa:'Netherlands',   ob:'Morocco'},
+  R32_4:  {a:'Brésil',         b:'Japon',              oa:'Brazil',        ob:'Japan'},
+  R32_5:  {a:'France',         b:'Suède',              oa:'France',        ob:'Sweden'},
+  R32_6:  {a:"Côte d'Ivoire",  b:'Norvège',            oa:'Ivory Coast',   ob:'Norway'},
+  R32_7:  {a:'Mexique',        b:'Équateur',           oa:'Mexico',        ob:'Ecuador'},
+  R32_8:  {a:'Angleterre',     b:'RD Congo',           oa:'England',       ob:'DR Congo'},
+  R32_9:  {a:'Etats-Unis',     b:'Bosnie-Herzégovine', oa:'USA',           ob:'Bosnia-Herzegovina'},
+  R32_10: {a:'Belgique',       b:'Sénégal',            oa:'Belgium',       ob:'Senegal'},
+  R32_11: {a:'Colombie',       b:'Ghana',              oa:'Colombia',      ob:'Ghana'},
+  R32_12: {a:'Espagne',        b:'Autriche',           oa:'Spain',         ob:'Austria'},
+  R32_13: {a:'Suisse',         b:'Algérie',            oa:'Switzerland',   ob:'Algeria'},
+  R32_14: {a:'Argentine',      b:'Cap-Vert',           oa:'Argentina',     ob:'Cape Verde'},
+  R32_15: {a:'Portugal',       b:'Croatie',            oa:'Portugal',      ob:'Croatia'},
+  R32_16: {a:'Australie',      b:'Égypte',             oa:'Australia',     ob:'Egypt'},
 };
 
 function applyConfirmedTeams(){
@@ -786,6 +786,14 @@ function buildMatchLookup(){
     const k1=(m.oa+'|||'+m.ob).toLowerCase();
     const k2=(m.ob+'|||'+m.oa).toLowerCase();
     map[k1]=m.id; map[k2]={id:m.id,swapped:true};
+  });
+  // 16es de finale : équipes désormais officiellement confirmées, synchro activable
+  Object.keys(CONFIRMED_R32_TEAMS).forEach(id=>{
+    const m = CONFIRMED_R32_TEAMS[id];
+    if(!m.oa || !m.ob) return; // sécurité si jamais incomplet
+    const k1=(m.oa+'|||'+m.ob).toLowerCase();
+    const k2=(m.ob+'|||'+m.oa).toLowerCase();
+    map[k1]=id; map[k2]={id,swapped:true};
   });
   return map;
 }
