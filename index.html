@@ -662,10 +662,44 @@ function showFbError(msg) {
 }
 
 // ── Boot (appelé une fois Firebase prêt ou en fallback) ────────
+// ── Équipes officiellement confirmées pour les 16es de finale (figées définitivement) ──
+const CONFIRMED_R32_TEAMS = {
+  R32_1:  {a:'Afrique du Sud', b:'Canada'},
+  R32_2:  {a:'Allemagne',      b:'Paraguay'},
+  R32_3:  {a:'Pays-Bas',       b:'Maroc'},
+  R32_4:  {a:'Brésil',         b:'Japon'},
+  R32_5:  {a:'France',         b:'Suède'},
+  R32_6:  {a:"Côte d'Ivoire",  b:'Norvège'},
+  R32_7:  {a:'Mexique',        b:'Équateur'},
+  R32_8:  {a:'Angleterre',     b:'RD Congo'},
+  R32_9:  {a:'Etats-Unis',     b:'Bosnie-Herzégovine'},
+  R32_10: {a:'Belgique',       b:'Sénégal'},
+  R32_11: {a:'Colombie',       b:'Ghana'},
+  R32_12: {a:'Espagne',        b:'Autriche'},
+  R32_13: {a:'Suisse',         b:'Algérie'},
+  R32_14: {a:'Argentine',      b:'Cap-Vert'},
+  R32_15: {a:'Portugal',       b:'Croatie'},
+  R32_16: {a:'Australie',      b:'Égypte'},
+};
+
+function applyConfirmedTeams(){
+  let changed = false;
+  Object.keys(CONFIRMED_R32_TEAMS).forEach(id => {
+    const confirmed = CONFIRMED_R32_TEAMS[id];
+    if(!state.koTeams[id]) state.koTeams[id] = {a:'',b:''};
+    const ko = state.koTeams[id];
+    // N'écrase que si pas déjà figé manuellement avec une AUTRE valeur (respecte une correction ultérieure)
+    if(!ko.manualA && ko.a !== confirmed.a){ ko.a = confirmed.a; ko.manualA = true; changed = true; }
+    if(!ko.manualB && ko.b !== confirmed.b){ ko.b = confirmed.b; ko.manualB = true; changed = true; }
+  });
+  if(changed) Object.keys(CONFIRMED_R32_TEAMS).forEach(id => saveKOTeam(id));
+}
+
 function bootApp() {
   if(!state.autoResults) state.autoResults={};
   if(!state.koTeams)     state.koTeams={};
   if(!state.results)     state.results={};
+  applyConfirmedTeams();
   renderParticipants();
   updatePlayerSelect();
   document.getElementById('stat-players').textContent = state.participants.length;
