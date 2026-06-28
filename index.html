@@ -594,6 +594,7 @@ function initFirebase() {
         state.results       = data.results       || {};
         state.autoResults   = data.autoResults   || {};
         state.koTeams       = data.koTeams       || {};
+        state.bonusPoints   = data.bonusPoints   || {};
         state.lastSync      = data.lastSync      || null;
       }
       if(!firebaseReady) {
@@ -972,6 +973,32 @@ function unlockResults(){
   }
   alert('Code incorrect.');
   return false;
+}
+
+// ── Points bonus manuels (ex: compensation en cas de pronostics perdus) ──
+function setBonusPoints(player){
+  if(!isResultsUnlocked()){ if(!unlockResults())return; }
+  const current = (state.bonusPoints && state.bonusPoints[player]) || 0;
+  const input = prompt(`Points bonus pour ${player} (actuellement: ${current}) :`, current);
+  if(input === null) return;
+  const val = parseInt(input);
+  if(isNaN(val)){ alert('Veuillez entrer un nombre valide.'); return; }
+  if(!state.bonusPoints) state.bonusPoints = {};
+  state.bonusPoints[player] = val;
+  saveBonusPoints();
+  renderLeaderboard();
+  toast(`✓ Bonus de ${val} pts appliqué à ${player}`);
+}
+
+let bonusSaveTimer = null;
+function saveBonusPoints(){
+  try { localStorage.setItem('wc2026v4', JSON.stringify(state)); } catch(e){}
+  if(!db) return;
+  clearTimeout(bonusSaveTimer);
+  bonusSaveTimer = setTimeout(() => {
+    db.ref('/concours/bonusPoints').set(state.bonusPoints || {})
+      .catch(e => { console.error('Firebase bonusPoints write error:', e); showFbError(e.message); });
+  }, 800);
 }
 
 function showTab(name){
@@ -1365,7 +1392,9 @@ function renderLeaderboard(){
         }
       }
     });
-    return{name:p,pts,exact,diff,good,played};
+    const bonus = (state.bonusPoints && state.bonusPoints[p]) || 0;
+    pts += bonus;
+    return{name:p,pts,exact,diff,good,played,bonus};
   });
   rows.sort((a,b)=>b.pts-a.pts||b.exact-a.exact||b.diff-a.diff||b.good-a.good);
   const maxPts=Math.max(rows[0]?rows[0].pts:1,1);
@@ -1375,8 +1404,9 @@ function renderLeaderboard(){
       <div class="lb-bar"></div>
       <div class="lb-rank-badge${i>=3?' normal':''}">${i<3?medals[i]:(i+1)}</div>
       <div class="lb-avatar">${initials(r.name)}</div>
-      <div><div class="lb-name">${r.name}</div><div class="lb-detail">${r.exact} exacts · ${r.diff} bonne diff. · ${r.good} bons · ${r.played} joués</div></div>
+      <div><div class="lb-name">${r.name}</div><div class="lb-detail">${r.exact} exacts · ${r.diff} bonne diff. · ${r.good} bons · ${r.played} joués${r.bonus?` · <span style="color:var(--gold);">+${r.bonus} bonus</span>`:''}</div></div>
       <div><div class="lb-pts">${r.pts}</div><div class="lb-pts-label">points</div></div>
+      <button onclick="setBonusPoints('${esc(r.name)}')" title="Ajuster un bonus manuel" style="background:none;border:none;color:var(--text-muted);font-size:14px;cursor:pointer;padding:4px;margin-left:4px;">⚙</button>
     </li>`).join('')}
   </ul>
   <div style="margin-top:1.5rem;">
