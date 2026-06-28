@@ -699,6 +699,36 @@ function applyConfirmedTeams(){
     if(bLooksLikeOldBug && !(ko.manualB && ko.b !== ko._autoB)){ ko.b = confirmed.b; ko.manualB = true; ko._autoB = confirmed.b; changed = true; }
   });
   if(changed) Object.keys(CONFIRMED_R32_TEAMS).forEach(id => saveKOTeam(id));
+  cleanupStaleManualOverrides();
+}
+
+// Nettoie les résidus de l'ancien bug : une valeur figée manuellement qui ne correspond
+// à AUCUNE des deux équipes réellement possibles pour ce match est forcément une erreur
+// héritée du calcul théorique buggé — on la déverrouille pour laisser le vrai calcul reprendre.
+function cleanupStaleManualOverrides(){
+  let changed = false;
+  const allPairs = [...R16_PAIRS, ...QF_PAIRS, ...SF_PAIRS];
+  allPairs.forEach(m => {
+    const ko = state.koTeams[m.id];
+    if(!ko) return;
+    // Équipes valides possibles pour ce match = les noms des deux matchs sources (équipe A ou B de chacun)
+    const srcA = resolveTeamRaw(m.a);
+    const srcB = resolveTeamRaw(m.b);
+    const validNames = [srcA.a, srcA.b, srcB.a, srcB.b].filter(Boolean);
+    if(ko.manualA && validNames.length && !validNames.includes(ko.a)){
+      delete ko.manualA; delete ko._autoA; ko.a=''; changed=true;
+    }
+    if(ko.manualB && validNames.length && !validNames.includes(ko.b)){
+      delete ko.manualB; delete ko._autoB; ko.b=''; changed=true;
+    }
+  });
+  if(changed) allPairs.forEach(m => { if(state.koTeams[m.id]) saveKOTeam(m.id); });
+}
+
+// Renvoie les deux noms d'équipes (a et b) connus pour un match source donné (R32/R16/QF), sans calcul de vainqueur
+function resolveTeamRaw(matchId){
+  const ko = state.koTeams[matchId];
+  return { a: ko ? ko.a : '', b: ko ? ko.b : '' };
 }
 
 function bootApp() {
@@ -1212,11 +1242,11 @@ function koRowProno(m,ph,date,player,myPlayer){
     <div class="ko-match-card${hasRes?' has-result':''}${isFinal?' is-final':''}${locked?' locked-row':''}">
       <div class="ko-date" style="display:flex;align-items:center;justify-content:center;gap:8px;">${date}${lockBadge}</div>
       <div class="ko-teams-row">
-        <input class="ko-team-input team-a${ko.a?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value)" onblur="renderPronostics()" />
+        <input class="ko-team-input team-a${teamA?' auto-bracket':''}" type="text" value="${teamA}" placeholder="Équipe A" oninput="setKOTeam('${m.id}','a',this.value)" onblur="renderPronostics()" />
         ${scoreA}
         <div class="ko-sep">:</div>
         ${scoreB}
-        <input class="ko-team-input team-b${ko.b?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value)" onblur="renderPronostics()" />
+        <input class="ko-team-input team-b${teamB?' auto-bracket':''}" type="text" value="${teamB}" placeholder="Équipe B" oninput="setKOTeam('${m.id}','b',this.value)" onblur="renderPronostics()" />
       </div>
       ${autoTag}
       ${!visible?`<div class="prono-hidden-row">🔒 Visible après le coup d'envoi</div>`:''}
@@ -1500,12 +1530,12 @@ function bestThirdFrom(groupLetters, idx) {
 const R16_PAIRS = [
   {id:'R16_1', label:'M91', date:'5 juil.',  a:'R32_2',  b:'R32_5'},  // MetLife Stadium, 22h Paris
   {id:'R16_2', label:'M89', date:'4 juil.',  a:'R32_1',  b:'R32_3'},  // NRG Stadium, 19h Paris
-  {id:'R16_3', label:'M96', date:'7 juil.',  a:'R32_11', b:'R32_12'}, // Mercedes-Benz, 2h Paris
+  {id:'R16_3', label:'M96', date:'7 juil.',  a:'R32_15', b:'R32_12'}, // Mercedes-Benz, 2h Paris
   {id:'R16_4', label:'M94', date:'6 juil.',  a:'R32_9',  b:'R32_10'}, // AT&T Stadium, 21h Paris
   {id:'R16_5', label:'M90', date:'4 juil.',  a:'R32_4',  b:'R32_6'},  // Lincoln Financial Field, 23h Paris
   {id:'R16_6', label:'M92', date:'6 juil.',  a:'R32_7',  b:'R32_8'},  // Stade Azteca, 2h Paris
   {id:'R16_7', label:'M95', date:'7 juil.',  a:'R32_14', b:'R32_16'}, // SoFi Stadium, 18h Paris
-  {id:'R16_8', label:'M93', date:'7 juil.',  a:'R32_13', b:'R32_15'}, // BC Place, 22h Paris
+  {id:'R16_8', label:'M93', date:'7 juil.',  a:'R32_13', b:'R32_11'}, // BC Place, 22h Paris
 ];
 
 // ── 3c. Quarts, demies, finale ────────────────────────────────────
@@ -1523,7 +1553,14 @@ const SF_PAIRS = [
 // ── 4. Résolution des équipes à n'importe quelle étape ───────────
 function resolveTeam(matchId, side) {
   // side: 'A' or 'B'
-  // Check R32
+  // Priorité absolue : si une équipe est déjà confirmée/figée dans koTeams, on l'utilise
+  const ko = state.koTeams[matchId];
+  if(ko){
+    const val = side==='A' ? ko.a : ko.b;
+    if(val) return {name: val, known: true};
+  }
+
+  // Check R32 (calcul théorique, seulement si pas encore de valeur confirmée)
   const r32 = R32_MATCHES.find(m=>m.id===matchId);
   if(r32) return side==='A' ? r32.teamA() : r32.teamB();
 
